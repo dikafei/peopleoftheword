@@ -1,0 +1,218 @@
+@use "global" as *;
+
+/* Cover */
+    .wp-block-cover {
+
+        .wp-block-cover__background {
+        
+            &.has-primary-background-color + .wp-block-cover__inner-container,
+            &.has-accent-3-background-color + .wp-block-cover__inner-container, 
+            &.has-accent-4-background-color + .wp-block-cover__inner-container,    
+            &.has-accent-5-background-color + .wp-block-cover__inner-container,
+            
+            &.has-primary-background-color + .components-drop-zone + .wp-block-cover__inner-container,
+            &.has-accent-3-background-color + .components-drop-zone + .wp-block-cover__inner-container, 
+            &.has-accent-4-background-color + .components-drop-zone + .wp-block-cover__inner-container,    
+            &.has-accent-5-background-color + .components-drop-zone + .wp-block-cover__inner-container {
+                color:$foreground;
+
+                .wp-block-heading {
+                    color:$foreground;
+                }
+            }
+
+            &.has-secondary-background-color + .wp-block-cover__inner-container,
+            &.has-accent-1-background-color + .wp-block-cover__inner-container,
+            &.has-accent-2-background-color + .wp-block-cover__inner-container,
+            &.has-accent-6-background-color + .wp-block-cover__inner-container,
+            &.has-foreground-background-color + .wp-block-cover__inner-container,
+            &.has-heading-background-color + .wp-block-cover__inner-container,
+            &.has-black-background-color + .wp-block-cover__inner-container,
+            
+            &.has-secondary-background-color + .components-drop-zone .wp-block-cover__inner-container,
+            &.has-accent-1-background-color + .components-drop-zone .wp-block-cover__inner-container,
+            &.has-accent-2-background-color + .components-drop-zone .wp-block-cover__inner-container,
+            &.has-accent-6-background-color + .components-drop-zone .wp-block-cover__inner-container,
+            &.has-foreground-background-color + .components-drop-zone .wp-block-cover__inner-container,
+            &.has-heading-background-color + .components-drop-zone .wp-block-cover__inner-container,
+            &.has-black-background-color + .components-drop-zone .wp-block-cover__inner-container  {
+                color:$white;
+
+                .wp-block-heading {
+                    color:$white;
+                }
+            }
+        }
+
+        .wp-block-cover__inner-container {
+
+            & > *:last-child {
+                margin-bottom: 0;
+            }
+        }
+
+    }
+
+/* Group */
+    .wp-block-group {
+    
+        .wp-block-group__inner-container {
+            padding:0;
+
+            & > *:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+/* Accordion Group */
+    .accordion-block-wrapper {
+        
+    }
+
+/* Accordion Item */
+    .accordion-item-wrapper {
+
+        &.active {
+
+            .accordion-item-title  {
+            
+                .accordion-plusminus {
+
+                    &:before {
+                        display: none;
+                    }
+                }
+            }
+        }
+        
+        .accordion-item-title {
+            font-size:$h4;
+            line-height: $lh4;
+            font-weight: bold;
+            border-bottom:1px solid $dark;
+            padding:20px 59px 20px 0;
+            position: relative;
+            cursor: pointer;
+            transition: $transition;
+
+            &:hover,
+            &:focus {
+                color:$secondary;
+
+                .accordion-plusminus {
+            
+                    &:before,
+                    &:after {
+                        background-color: $secondary;
+                    }
+                }
+            }
+
+            .accordion-plusminus {
+                width:44px;
+                height:44px;
+                position: absolute;
+                right:0;
+                top:50%;
+                transform: translateY(-50%);                
+
+                
+
+                &:before,
+                &:after {
+                    content:'';                    
+                    background-color:$secondary;
+                    display: block;
+                    position:absolute;
+                    transition: $transition;
+                    top:50%;
+                    left:50%;
+                    transform: translate(-50%, -50%);
+                }
+
+                &:after {                    
+                    width:16px;
+                    height:2px;                    
+                }
+
+                &:before {                    
+                    width:2px;
+                    height:16px;
+                }
+            }
+        }
+
+        .accordion-item-content {
+            padding-top:24px;
+            padding-bottom: $double-spacing;
+            display: none;
+
+            @media( max-width:$sm ) {
+                padding-bottom:56px;
+            }
+
+            & > *:last-child:not(ul,ol) {
+                margin:0;
+            }
+
+            p,
+            ul,
+            ol,
+            table {
+                font-size: $h5;
+                line-height: $lh5;
+            }
+
+            .wp-block-image {
+                margin-bottom:$spacing;
+            }
+
+            .wp-block-table {
+
+                @media( max-width:$sm ) {
+                    margin-left:-32px;
+                    margin-right:-32px;
+                    width:calc( 100%  + 64px );
+                }
+            
+                table {
+                    width:auto;
+                    max-width: 656px;
+                    margin:0 auto $spacing;                    
+
+                    @media( max-width:$sm ) {
+                        font-size: $h6;
+                        line-height: $lh6;
+                        width:100%;
+                        margin-left:0;
+                        margin-right:0;
+
+                        tr {
+
+                            td {
+                                padding:10px 6px;
+
+                                &:first-child {
+                                    padding-left:32px;
+                                }
+
+                                &:last-child {
+                                    padding-right: 32px;
+                                }                            
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .is-style-card {
+            border-radius: 8px;
+            
+        }
+
+        .is-style-note {
+            border-radius: 8px;
+        }
+    }
