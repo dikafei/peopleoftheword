@@ -1,0 +1,384 @@
+/*
+Theme Name: People of the Word
+Theme URI: https://peopleoftheword.org
+Author: People of the Word
+Author URI: https://peopleoftheword.org
+Description: Native WordPress full site editing (FSE) block theme for People of the Word, built from the Figma design system (Home – Rev 2 and Single Post).
+Requires at least: 6.4
+Tested up to: 6.7
+Requires PHP: 7.4
+Version: 1.0.0
+License: GNU General Public License v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: potw-fse
+Tags: full-site-editing, block-patterns, custom-colors, custom-menu, editor-style, one-column
+
+This theme, like WordPress, is licensed under the GPL.
+Use it to make something cool, have fun, and share what you've learned with others.
+*/
+
+/* -----------------------------------------------------------------------
+   Everything below is intentionally lightweight: block themes should get
+   almost all of their design from theme.json. This file only holds the
+   handful of things theme.json cannot express (component-level layout,
+   pseudo-states, background images/overlays, decorative dividers, etc).
+   Class names below are applied to blocks via "Additional CSS class(es)".
+----------------------------------------------------------------------- */
+
+/* Site chrome ------------------------------------------------------- */
+
+.potw-site-header {
+	background-color: var(--wp--preset--color--accent-1);
+	position: relative;
+	z-index: 100;
+}
+
+.potw-site-header--transparent {
+	background-color: transparent;
+	position: absolute;
+	inset-inline: 0;
+	top: 0;
+}
+
+.potw-site-header .wp-block-navigation a {
+	text-decoration: none;
+}
+
+.potw-site-header .wp-block-navigation__responsive-container-open svg,
+.potw-site-header .wp-block-navigation__responsive-container-close svg {
+	fill: var(--wp--preset--color--white);
+}
+
+.potw-logo-badge img {
+	max-height: 84px;
+	width: auto;
+}
+
+.potw-site-footer {
+	background-color: var(--wp--preset--color--secondary);
+	color: var(--wp--preset--color--accent-5);
+}
+
+.potw-site-footer a {
+	color: var(--wp--preset--color--accent-5);
+	text-decoration: none;
+}
+
+.potw-site-footer a:hover {
+	color: var(--wp--preset--color--white);
+	text-decoration: underline;
+}
+
+.potw-site-footer hr {
+	border: none;
+	border-top: 1px solid rgba(249, 241, 232, 0.25);
+}
+
+.potw-footer-bottom {
+	background-color: var(--wp--preset--color--secondary);
+	filter: brightness(0.94);
+}
+
+.potw-social-icons a {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 30px;
+	height: 30px;
+}
+
+.potw-social-icons svg {
+	fill: currentColor;
+	width: 20px;
+	height: 20px;
+}
+
+/* Hero ---------------------------------------------------------------- */
+
+.potw-hero {
+	position: relative;
+	overflow: clip;
+}
+
+/* Divider ornament ------------------------------------------------------ */
+
+.potw-divider {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	color: var(--wp--preset--color--primary);
+}
+
+.potw-divider::before,
+.potw-divider::after {
+	content: "";
+	display: block;
+	width: 100px;
+	height: 1px;
+	background: currentColor;
+	opacity: 0.5;
+}
+
+.potw-divider svg {
+	width: 8px;
+	height: 12px;
+	fill: currentColor;
+	flex-shrink: 0;
+}
+
+/* Cards ------------------------------------------------------------------ */
+
+.potw-icon-badge {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 52px;
+	height: 52px;
+	border-radius: 999px;
+	background-color: var(--wp--preset--color--accent-4);
+	color: var(--wp--preset--color--accent-2);
+	flex-shrink: 0;
+	margin-inline-end: 16px;
+}
+
+.potw-icon-badge svg,
+.potw-icon-badge img {
+	width: 22px;
+	height: 22px;
+	object-fit: contain;
+}
+
+.potw-audience-card figure {
+	margin: 0;
+	border-radius: var(--wp--custom--radius--large);
+	overflow: hidden;
+}
+
+.potw-audience-card img {
+	aspect-ratio: 4 / 3;
+	object-fit: cover;
+}
+
+/* Lesson cards ------------------------------------------------------------ */
+
+.potw-lesson-card {
+	background-color: var(--wp--preset--color--accent-5);
+	border-radius: var(--wp--custom--radius--large);
+	overflow: clip;
+}
+
+.potw-lesson-card figure {
+	margin: 0;
+}
+
+.potw-lesson-card img {
+	aspect-ratio: 16 / 10;
+	object-fit: cover;
+	width: 100%;
+}
+
+.potw-tag {
+	display: inline-flex;
+	padding: 4px 12px;
+	border-radius: 999px;
+	background-color: var(--wp--preset--color--white);
+	color: var(--wp--preset--color--accent-2);
+	font-size: 0.8rem;
+	letter-spacing: 0.02em;
+	margin-bottom: 16px;
+}
+
+.potw-tag a {
+	text-decoration: none;
+	font-style: italic;
+	color: inherit;
+}
+
+.potw-post-category a {
+	color: var(--wp--preset--color--accent-2);
+	text-decoration: none;
+}
+
+/* Memory verse callout ------------------------------------------------------ */
+
+.potw-memory-verse {
+	background-color: var(--wp--preset--color--accent-1);
+	color: var(--wp--preset--color--accent-5);
+	border-radius: var(--wp--custom--radius--large);
+}
+
+.potw-memory-verse p {
+	color: var(--wp--preset--color--accent-4);
+}
+
+/* CTA banner ---------------------------------------------------------------- */
+
+.potw-cta-banner {
+	background-color: var(--wp--preset--color--accent-4);
+	border-radius: var(--wp--custom--radius--large);
+	overflow: clip;
+}
+
+.potw-cta-banner figure {
+	margin: 0;
+	height: 100%;
+}
+
+.potw-cta-banner img {
+	object-fit: cover;
+	height: 100%;
+	width: 100%;
+}
+
+/* Buttons ------------------------------------------------------------------- */
+
+.wp-block-button.is-style-outline .wp-block-button__link {
+	border-width: 1px;
+}
+
+.wp-block-button__link svg {
+	width: 18px;
+	height: 18px;
+	fill: currentColor;
+	margin-inline-end: 8px;
+	vertical-align: -3px;
+}
+
+/* Single post: table of contents sidebar ------------------------------------ */
+
+.potw-toc {
+	background-color: var(--wp--preset--color--accent-5);
+	border-radius: var(--wp--custom--radius--large);
+}
+
+.potw-toc ol {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	counter-reset: toc;
+}
+
+.potw-toc li {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin: 0 0 10px;
+}
+
+.potw-toc li a {
+	color: var(--wp--preset--color--body);
+	text-decoration: none;
+	font-family: var(--wp--preset--font-family--ui);
+	font-size: 0.9rem;
+}
+
+.potw-toc li a:hover {
+	color: var(--wp--preset--color--primary);
+}
+
+.potw-toc .potw-toc-index {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 30px;
+	height: 30px;
+	padding: 0 6px;
+	border-radius: 6px;
+	background-color: var(--wp--preset--color--accent-4);
+	color: var(--wp--preset--color--accent-2);
+	font-family: var(--wp--preset--font-family--ui);
+	font-size: 0.85rem;
+	flex-shrink: 0;
+}
+
+.potw-toc li.potw-toc-sub {
+	padding-inline-start: 20px;
+}
+
+/* Single post: download cards ------------------------------------------------ */
+
+.potw-download-card {
+	background-color: var(--wp--preset--color--accent-5);
+	border-radius: var(--wp--custom--radius--large);
+}
+
+.potw-download-row + .potw-download-row {
+	border-top: 1px solid var(--wp--preset--color--accent-4);
+	padding-top: 20px;
+	margin-top: 20px;
+}
+
+.potw-download-year {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 4px 8px;
+	border-radius: 5px;
+	background-color: var(--wp--preset--color--accent-4);
+	color: var(--wp--preset--color--body);
+	font-family: var(--wp--preset--font-family--ui);
+	font-size: 0.9rem;
+}
+
+/* Single post: scripture blockquote ------------------------------------------ */
+
+.potw-scripture {
+	border: none;
+	text-align: center;
+	font-style: italic;
+	max-width: 46rem;
+	margin-inline: auto;
+}
+
+.potw-scripture cite {
+	display: block;
+	font-style: normal;
+	margin-top: 0.5em;
+}
+
+/* Player bar (audio/video toggle header) -------------------------------------- */
+
+.potw-player-toggle {
+	display: inline-flex;
+	border-radius: var(--wp--custom--radius--medium);
+	overflow: clip;
+	border: 1px solid var(--wp--preset--color--accent-2);
+}
+
+.potw-player-toggle span {
+	padding: 8px 16px;
+	font-family: var(--wp--preset--font-family--ui);
+	font-size: 0.9rem;
+	color: var(--wp--preset--color--accent-2);
+}
+
+.potw-player-toggle span.is-active {
+	background-color: var(--wp--preset--color--accent-2);
+	color: var(--wp--preset--color--white);
+}
+
+/* Newsletter form ------------------------------------------------------------- */
+
+.potw-newsletter-form {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.potw-newsletter-form input[type="email"] {
+	background-color: var(--wp--preset--color--background);
+	border: 1px solid var(--wp--preset--color--accent-4);
+	border-radius: var(--wp--custom--radius--medium);
+	padding: 17px 20px;
+	font-family: var(--wp--preset--font-family--body);
+	color: var(--wp--preset--color--body);
+}
+
+/* Responsive ------------------------------------------------------------------- */
+
+@media (max-width: 782px) {
+	.potw-hero {
+		text-align: center;
+	}
+}

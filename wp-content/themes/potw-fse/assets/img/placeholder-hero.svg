@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 720" role="img" aria-label="Open Bible on a wooden desk">
+	<defs>
+		<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+			<stop offset="0%" stop-color="#F9F1E8"/>
+			<stop offset="100%" stop-color="#E4D3BF"/>
+		</linearGradient>
+		<linearGradient id="wood" x1="0" y1="0" x2="0" y2="1">
+			<stop offset="0%" stop-color="#CDB59B"/>
+			<stop offset="100%" stop-color="#B37419"/>
+		</linearGradient>
+	</defs>
+	<rect width="960" height="720" fill="url(#sky)"/>
+	<circle cx="740" cy="180" r="120" fill="#F9F1E8" opacity="0.9"/>
+	<circle cx="740" cy="180" r="150" fill="#E4D3BF" opacity="0.35"/>
+	<rect x="0" y="460" width="960" height="260" fill="url(#wood)" opacity="0.55"/>
+	<g transform="translate(230,420)">
+		<path d="M0 60 L250 0 L250 190 L0 250 Z" fill="#F9F1E8"/>
+		<path d="M500 60 L250 0 L250 190 L500 250 Z" fill="#FDF9F5"/>
+		<path d="M0 60 L250 0 L500 60 L250 118 Z" fill="#FFFFFF"/>
+		<g stroke="#CDB59B" stroke-width="3" opacity="0.7">
+			<line x1="40" y1="90" x2="220" y2="42" />
+			<line x1="40" y1="120" x2="220" y2="70" />
+			<line x1="40" y1="150" x2="220" y2="98" />
+			<line x1="280" y1="42" x2="460" y2="90" />
+			<line x1="280" y1="70" x2="460" y2="120" />
+			<line x1="280" y1="98" x2="460" y2="150" />
+		</g>
+	</g>
+</svg>
