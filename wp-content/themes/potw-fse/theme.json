@@ -389,14 +389,5 @@
 			"name": "footer",
 			"title": "Footer"
 		}
-	],
-	"customTemplates": [
-		{
-			"name": "front-page",
-			"postTypes": [
-				"page"
-			],
-			"title": "Homepage"
-		}
 	]
 }
