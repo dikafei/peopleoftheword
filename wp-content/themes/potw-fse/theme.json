@@ -6,7 +6,9 @@
 		"useRootPaddingAwareAlignments": true,
 		"layout": {
 			"contentSize": "1440px",
-			"wideSize": "1600px"
+			"wideSize": "1600px",
+			"allowEditing": true,
+      		"allowCustomContentAndWideSize": true
 		},
 		"color": {
 			"defaultPalette": false,
@@ -104,7 +106,7 @@
 				},
 				{
 					"name": "H1",
-					"slug": "h1",
+					"slug": "heading-1",
 					"size": "3.75rem",
 					"fluid": {
 						"max": "3.75rem",
@@ -113,7 +115,7 @@
 				},
 				{
 					"name": "H2",
-					"slug": "h2",
+					"slug": "heading-2",
 					"size": "3rem",
 					"fluid": {
 						"max": "3rem",
@@ -122,7 +124,7 @@
 				},
 				{
 					"name": "H3",
-					"slug": "h3",
+					"slug": "heading-3",
 					"size": "2.25rem",
 					"fluid": {
 						"max": "2.25rem",
@@ -131,7 +133,7 @@
 				},
 				{
 					"name": "H4",
-					"slug": "h4",
+					"slug": "heading-4",
 					"size": "1.875rem",
 					"fluid": {
 						"max": "1.875rem",
@@ -140,7 +142,7 @@
 				},
 				{
 					"name": "H5",
-					"slug": "h5",
+					"slug": "heading-5",
 					"size": "1.5rem",
 					"fluid": {
 						"max": "1.5rem",
@@ -149,7 +151,7 @@
 				},
 				{
 					"name": "H6",
-					"slug": "h6",
+					"slug": "heading-6",
 					"size": "1.125rem",
 					"fluid": false
 				}
@@ -238,32 +240,32 @@
 			},
 			"h1": {
 				"typography": {
-					"fontSize": "var:preset|font-size|h1"
+					"fontSize": "var:preset|font-size|heading-1"
 				}
 			},
 			"h2": {
 				"typography": {
-					"fontSize": "var:preset|font-size|h2"
+					"fontSize": "var:preset|font-size|heading-2"
 				}
 			},
 			"h3": {
 				"typography": {
-					"fontSize": "var:preset|font-size|h3"
+					"fontSize": "var:preset|font-size|heading-3"
 				}
 			},
 			"h4": {
 				"typography": {
-					"fontSize": "var:preset|font-size|h4"
+					"fontSize": "var:preset|font-size|heading-4"
 				}
 			},
 			"h5": {
 				"typography": {
-					"fontSize": "var:preset|font-size|h5"
+					"fontSize": "var:preset|font-size|heading-5"
 				}
 			},
 			"h6": {
 				"typography": {
-					"fontSize": "var:preset|font-size|h6"
+					"fontSize": "var:preset|font-size|heading-6"
 				}
 			},
 			"link": {
