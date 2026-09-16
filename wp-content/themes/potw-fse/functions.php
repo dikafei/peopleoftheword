@@ -102,7 +102,8 @@ add_filter( 'acf/settings/enable_datastore', '__return_true' );
  * Add new styles in block editor
  */
 add_action( 'init', function() {
-	// Cross divider
+	// Separator style
+    // Cross divider
     wp_register_style(
         'cross-divider-style',
         get_stylesheet_directory_uri() . '/css/cross-divider.css',
@@ -136,6 +137,7 @@ add_action( 'init', function() {
         )
     );
 
+    // Button style
     // Green button
     wp_register_style(
         'olive-button-style',
@@ -153,7 +155,8 @@ add_action( 'init', function() {
         )
     );
 
-	// Narrow group
+	// Group style
+    // Narrow group
     wp_register_style(
         'narrow-group-style',
         get_stylesheet_directory_uri() . '/css/narrow-group.css',
@@ -169,4 +172,22 @@ add_action( 'init', function() {
             'style_handle' => 'narrow-group-style',
         )
     );
+
+    // Column style
+    // Rounded column
+	wp_register_style(
+		'rounded-columns-style',
+		get_stylesheet_directory_uri() . '/css/rounded-columns.css',
+		array(),
+		'1.0'
+	);
+
+	register_block_style(
+		'core/columns',
+		array(
+			'name'         => 'rounded',
+			'label'        => __( 'Rounded', 'textdomain' ),
+			'style_handle' => 'rounded-columns-style',
+		)
+	);
 } );

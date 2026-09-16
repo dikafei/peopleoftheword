@@ -14,7 +14,8 @@
 			"defaultPalette": false,
 			"defaultGradients": false,
 			"custom": false,
-			"customGradient": false,
+			"gradients": true,
+			"customGradient": true,
 			"palette": [
 				{
 					"name": "Primary",
@@ -204,6 +205,51 @@
 				}
 			]
 		},
+		"border": {
+			"radius": true,
+            "width": true,
+            "color": true,
+            "style": true,
+			"radiusSizes": [
+                {
+					"name": "None",
+					"slug": "none",
+					"size": "0px" 
+				},
+                {
+					"name": "Small",
+					"slug": "sm",
+					"size": "0.625rem"
+				},
+                {
+					"name": "Medium",
+					"slug": "md",
+					"size": "1.5rem"
+				},
+                {
+					"name": "Large",
+					"slug": "lg",
+					"size": "1.875rem"
+				},
+				{
+					"name": "Huge",
+					"slug": "hg",
+					"size": "2.5rem"
+				},
+                {
+					"name": "Full",
+					"slug": "full",
+					"size": "62.438rem"
+				}
+            ]
+		},
+		"blocks": {
+			"core/column": {
+        		"border": {
+          			"radius": false
+       			}
+    		}
+		},
 		"custom": {
 			"borderRadius": {
 				"small": "0.625rem",
@@ -371,6 +417,13 @@
 				"typography": {
 					"fontFamily": "var:preset|font-family|heading",
 					"fontSize": "var:preset|font-size|h2"
+				}
+			},
+			"core/image": {
+				"border": {
+					"width": "0px",
+					"radius": "0px",
+					"style": "none"
 				}
 			}
 		}
