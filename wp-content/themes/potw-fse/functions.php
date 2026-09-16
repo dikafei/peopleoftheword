@@ -91,3 +91,5 @@ function potw_fse_menus() {
 	);
 }
 add_action( 'after_setup_theme', 'potw_fse_menus' );
+
+add_filter( 'acf/settings/enable_datastore', '__return_true' );
