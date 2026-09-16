@@ -176,22 +176,22 @@
 				{
 					"name": "XXL",
 					"slug": "100",
-					"size": "6.25rem"
+					"size": "clamp(3.5rem, 2.5rem + 4vw, 6.25rem)"
 				},
 				{
 					"name": "XL",
 					"slug": "80",
-					"size": "5rem"
+					"size": "clamp(3rem, 2.25rem + 3vw, 5rem)"
 				},
 				{
 					"name": "L",
 					"slug": "60",
-					"size": "3.75rem"
+					"size": "clamp(2.5rem, 2rem + 2vw, 3.75rem)"
 				},
 				{
 					"name": "M",
 					"slug": "40",
-					"size": "2.5rem"
+					"size": "clamp(2rem, 1.75rem + 1vw, 2.5rem)"
 				},
 				{
 					"name": "S",
@@ -248,7 +248,17 @@
         		"border": {
           			"radius": false
        			}
-    		}
+    		},
+			"core/group": {
+    			"border": {
+      				"radius": false
+   				}
+  			},
+			"core/cover": {
+    			"border": {
+      				"radius": false
+   				}
+  			}
 		},
 		"custom": {
 			"borderRadius": {
@@ -271,7 +281,13 @@
 			"lineHeight": "1.6"
 		},
 		"spacing": {
-			"blockGap": "var:preset|spacing|24"
+			"blockGap": "var:preset|spacing|24",
+			"padding": {
+				"top": "0",
+				"right": "clamp(1rem, 4vw, 2rem)",
+				"bottom": "0",
+				"left": "clamp(1rem, 4vw, 2rem)"
+			}
 		},
 		"elements": {
 			"heading": {

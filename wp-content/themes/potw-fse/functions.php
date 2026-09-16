@@ -102,7 +102,11 @@ add_filter( 'acf/settings/enable_datastore', '__return_true' );
  * Add new styles in block editor
  */
 add_action( 'init', function() {
+
+    // ==============================
 	// Separator style
+    // ==============================
+
     // Cross divider
     wp_register_style(
         'cross-divider-style',
@@ -137,7 +141,10 @@ add_action( 'init', function() {
         )
     );
 
+    // ==============================
     // Button style
+    // ==============================
+
     // Green button
     wp_register_style(
         'olive-button-style',
@@ -155,25 +162,48 @@ add_action( 'init', function() {
         )
     );
 
+    // ==============================
 	// Group style
-    // Narrow group
+    // ==============================
+
+    // Rounded group
     wp_register_style(
-        'narrow-group-style',
-        get_stylesheet_directory_uri() . '/css/narrow-group.css',
-        array(),
-        '1.0'
+	    'rounded-group-style',
+	    get_stylesheet_directory_uri() . '/css/rounded-group.css',
+	    array(),
+	    '1.0'
     );
 
     register_block_style(
-        'core/group',
-        array(
-            'name'         => 'narrow',
-            'label'        => __( 'Narrow', 'textdomain' ),
-            'style_handle' => 'narrow-group-style',
-        )
+	'core/group',
+	    array(
+		    'name'         => 'rounded',
+		    'label'        => __( 'Rounded', 'textdomain' ),
+		    'style_handle' => 'rounded-group-style',
+	    )
     );
 
+    // Rounded Cover
+    wp_register_style(
+	    'rounded-cover-style',
+	    get_stylesheet_directory_uri() . '/css/rounded-cover.css',
+	    array(),
+	    '1.0'
+    );
+
+    register_block_style(
+	'core/cover',
+	    array(
+		    'name'         => 'rounded',
+		    'label'        => __( 'Rounded', 'textdomain' ),
+		    'style_handle' => 'rounded-cover-style',
+	    )
+    );
+
+    // ==============================
     // Column style
+    // ==============================
+
     // Rounded column
 	wp_register_style(
 		'rounded-columns-style',
@@ -191,3 +221,25 @@ add_action( 'init', function() {
 		)
 	);
 } );
+
+/**
+ * Toggle for narrow width in group block
+ */
+function potw_group_editor_controls() {
+
+	wp_enqueue_script(
+		'potw-group-narrow-toggle',
+		get_stylesheet_directory_uri() . '/js/group-narrow-toggle.js',
+		array(
+			'wp-block-editor',
+			'wp-components',
+			'wp-compose',
+			'wp-element',
+			'wp-hooks',
+		),
+		'1.0',
+		true
+	);
+
+}
+add_action( 'enqueue_block_editor_assets', 'potw_group_editor_controls' );

@@ -125,12 +125,22 @@ Use it to make something cool, have fun, and share what you've learned with othe
     margin: 0 auto;
 }
 
-/* Narrow group ----------------------------------------------------------- */
+/* Groups ----------------------------------------------------------- */
 
-.wp-block-group.is-style-narrow {
-    max-width: 760px;
-    margin-left: auto;
-    margin-right: auto;
+.wp-block-group.is-narrow {
+	width: 100%;
+	max-width: 47.5rem;
+	margin-inline: auto;
+}
+
+.wp-block-group.is-style-rounded {
+	border-radius: 1.5rem;
+	overflow: hidden;
+}
+
+.wp-block-cover.is-style-rounded {
+	border-radius: 1.5rem;
+	overflow: hidden;
 }
 
 /* Cards ------------------------------------------------------------------ */
