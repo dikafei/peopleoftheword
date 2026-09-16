@@ -92,4 +92,81 @@ function potw_fse_menus() {
 }
 add_action( 'after_setup_theme', 'potw_fse_menus' );
 
+
+/**
+ * Active the attribute panel in block editor
+ */
 add_filter( 'acf/settings/enable_datastore', '__return_true' );
+
+/**
+ * Add new styles in block editor
+ */
+add_action( 'init', function() {
+	// Cross divider
+    wp_register_style(
+        'cross-divider-style',
+        get_stylesheet_directory_uri() . '/css/cross-divider.css',
+        array(),
+        '1.0'
+    );
+
+    register_block_style(
+        'core/separator',
+        array(
+            'name'         => 'cross-divider',
+            'label'        => __( 'Cross Divider', 'textdomain' ),
+            'style_handle' => 'cross-divider-style',
+        )
+    );
+
+	// Vertical divider
+    wp_register_style(
+        'vertical-separator-style',
+        get_stylesheet_directory_uri() . '/css/vertical-separator.css',
+        array(),
+        '1.0'
+    );
+
+    register_block_style(
+        'core/separator',
+        array(
+            'name'         => 'vertical',
+            'label'        => __( 'Vertical', 'textdomain' ),
+            'style_handle' => 'vertical-separator-style',
+        )
+    );
+
+    // Green button
+    wp_register_style(
+        'olive-button-style',
+        get_stylesheet_directory_uri() . '/css/olive-button.css',
+        array(),
+        '1.0'
+    );
+
+    register_block_style(
+        'core/button',
+        array(
+            'name'         => 'olive-button',
+            'label'        => __( 'Olive', 'textdomain' ),
+            'style_handle' => 'olive-button-style',
+        )
+    );
+
+	// Narrow group
+    wp_register_style(
+        'narrow-group-style',
+        get_stylesheet_directory_uri() . '/css/narrow-group.css',
+        array(),
+        '1.0'
+    );
+
+    register_block_style(
+        'core/group',
+        array(
+            'name'         => 'narrow',
+            'label'        => __( 'Narrow', 'textdomain' ),
+            'style_handle' => 'narrow-group-style',
+        )
+    );
+} );

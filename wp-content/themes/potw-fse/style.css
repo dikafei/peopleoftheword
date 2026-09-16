@@ -100,31 +100,35 @@ Use it to make something cool, have fun, and share what you've learned with othe
 	overflow: clip;
 }
 
-/* Divider ornament ------------------------------------------------------ */
+/* Divider ---------------------------------------------------------------- */
 
-.potw-divider {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: 10px;
-	color: var(--wp--preset--color--primary);
+.wp-block-separator.is-style-cross-divider {
+    border: none;
+	width: 100% !important;
+    height: 40px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='700' height='40' viewBox='0 0 700 40'%3E%3Cline x1='0' y1='20' x2='300' y2='20' stroke='%23a8721c' stroke-width='2'/%3E%3Cline x1='400' y1='20' x2='700' y2='20' stroke='%23a8721c' stroke-width='2'/%3E%3Cpath d='M350 5 v30 M337 15 h26' stroke='%23a8721c' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+	background-color: transparent;
 }
 
-.potw-divider::before,
-.potw-divider::after {
-	content: "";
-	display: block;
-	width: 100px;
-	height: 1px;
-	background: currentColor;
-	opacity: 0.5;
+.wp-block-separator.is-style-vertical {
+    width: 1px !important;
+    height: 100%;
+    min-height: 60px;
+    border: none;
+    background-color: var(--wp--preset--color--accent-4);
+    align-self: stretch;
+    margin: 0 auto;
 }
 
-.potw-divider svg {
-	width: 8px;
-	height: 12px;
-	fill: currentColor;
-	flex-shrink: 0;
+/* Narrow group ----------------------------------------------------------- */
+
+.wp-block-group.is-style-narrow {
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* Cards ------------------------------------------------------------------ */
@@ -243,6 +247,16 @@ Use it to make something cool, have fun, and share what you've learned with othe
 	fill: currentColor;
 	margin-inline-end: 8px;
 	vertical-align: -3px;
+}
+
+.wp-block-button.is-style-olive-button .wp-block-button__link {
+    background-color: var(--wp--preset--color--secondary);
+    color: var(--wp--preset--color--white);
+    font-family: var(--wp--preset--font-family--body), Georgia, 'Times New Roman', serif;
+    font-size: var(--wp--preset--font-size--body);
+    padding: var(--wp--preset--spacing--16) var(--wp--preset--spacing--24);
+    border-radius: 0.625rem;
+    border: none;
 }
 
 /* Single post: table of contents sidebar ------------------------------------ */
