@@ -80,11 +80,6 @@ Use it to make something cool, have fun, and share what you've learned with othe
 
 /* Hero ---------------------------------------------------------------- */
 
-.potw-hero {
-	position: relative;
-	overflow: clip;
-}
-
 .potw-services .wp-block-group {
 	flex: 1;
 }
@@ -96,19 +91,34 @@ Use it to make something cool, have fun, and share what you've learned with othe
 /* Divider ---------------------------------------------------------------- */
 
 .wp-block-separator.is-style-cross-divider {
+    position: relative;
     border: none;
-	width: 100% !important;
-    height: 12px;
+    height: 40px;
+    width: 230px !important;
+    background-image: url('/wp-content/uploads/2026/09/cross-icon.svg');
     background-repeat: no-repeat;
     background-position: center;
-    background-size: contain;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='700' height='40' viewBox='0 0 700 40'%3E%3Cline x1='0' y1='20' x2='300' y2='20' stroke='%23a8721c' stroke-width='2'/%3E%3Cline x1='400' y1='20' x2='700' y2='20' stroke='%23a8721c' stroke-width='2'/%3E%3Cpath d='M350 5 v30 M337 15 h26' stroke='%23a8721c' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+    background-size: 8px 12px;
 	background-color: transparent;
 }
 
+.wp-block-separator.is-style-cross-divider::before,
+.wp-block-separator.is-style-cross-divider::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: calc(50% - 20px); /* 20px = setengah lebar icon + jarak */
+    height: 2px;
+    background-color: var(--wp--preset--color--primary);
+    transform: translateY(-50%);
+}
+
+.wp-block-separator.is-style-cross-divider::before { left: 0; }
+.wp-block-separator.is-style-cross-divider::after  { right: 0; }
+
 .wp-block-separator.is-style-vertical {
     width: 1px !important;
-    min-height: 60px;
+    min-height: 30px;
     border: none;
     background-color: var(--wp--preset--color--accent-4);
     align-self: stretch;
@@ -173,42 +183,12 @@ Use it to make something cool, have fun, and share what you've learned with othe
 
 /* Lesson cards ------------------------------------------------------------ */
 
-.potw-lesson-card {
-	background-color: var(--wp--preset--color--accent-5);
-	border-radius: var(--wp--custom--radius--large);
-	overflow: clip;
+.potw-latest-lesson .wp-block-columns .wp-block-column figure {
+	height: 100%;
 }
 
-.potw-lesson-card figure {
-	margin: 0;
-}
-
-.potw-lesson-card img {
-	aspect-ratio: 16 / 10;
-	object-fit: cover;
-	width: 100%;
-}
-
-.potw-tag {
-	display: inline-flex;
-	padding: 4px 12px;
-	border-radius: 999px;
-	background-color: var(--wp--preset--color--white);
-	color: var(--wp--preset--color--accent-2);
-	font-size: 0.8rem;
-	letter-spacing: 0.02em;
-	margin-bottom: 16px;
-}
-
-.potw-tag a {
-	text-decoration: none;
-	font-style: italic;
-	color: inherit;
-}
-
-.potw-post-category a {
-	color: var(--wp--preset--color--accent-2);
-	text-decoration: none;
+.potw-latest-lesson .wp-block-columns .wp-block-column:last-child > .wp-block-group {
+	height: 100%;
 }
 
 /* Memory verse callout ------------------------------------------------------ */
@@ -225,22 +205,7 @@ Use it to make something cool, have fun, and share what you've learned with othe
 
 /* CTA banner ---------------------------------------------------------------- */
 
-.potw-cta-banner {
-	background-color: var(--wp--preset--color--accent-4);
-	border-radius: var(--wp--custom--radius--large);
-	overflow: clip;
-}
 
-.potw-cta-banner figure {
-	margin: 0;
-	height: 100%;
-}
-
-.potw-cta-banner img {
-	object-fit: cover;
-	height: 100%;
-	width: 100%;
-}
 
 /* Buttons ------------------------------------------------------------------- */
 
@@ -264,6 +229,12 @@ Use it to make something cool, have fun, and share what you've learned with othe
     padding: var(--wp--preset--spacing--16) var(--wp--preset--spacing--24);
     border-radius: 0.625rem;
     border: none;
+	transition: all ease .3s;
+}
+
+.wp-block-button.is-style-olive-button .wp-block-button__link:hover {
+	background-color: #394625;
+	transition: all ease .3s;
 }
 
 /* Single post: table of contents sidebar ------------------------------------ */
@@ -398,8 +369,79 @@ Use it to make something cool, have fun, and share what you've learned with othe
 
 /* Responsive ------------------------------------------------------------------- */
 
-@media (max-width: 782px) {
-	.potw-hero {
-		text-align: center;
+@media (max-width: 1024px) {
+	/* Hero --------------------------------------------------------------------- */
+	.potw-hero .wp-block-columns .wp-block-column:first-child {
+		flex-basis: 66% !important;
+	}
+
+	/* Call to Action ----------------------------------------------------------- */
+	.potw-cta .wp-block-columns .wp-block-column:first-child {
+		flex-basis: 40% !important;
+	}
+}
+
+@media (min-width: 951px) {
+	/* Menu --------------------------------------------------------------------- */
+	.wp-block-navigation__responsive-container-open {
+		display: none !important;
+	}
+
+	.wp-block-navigation__responsive-container:not(.hidden-by-default):not(.is-menu-open) {
+		display: block !important;
+		position: relative;
+		width: 100%;
+		z-index: auto;
+	}
+}
+
+@media (max-width: 950px) {
+	/* Menu --------------------------------------------------------------------- */
+	.wp-block-navigation__responsive-container-open {
+		display: flex !important;
+	}
+
+	.wp-block-navigation__responsive-container:not(.is-menu-open) {
+		display: none !important;
+	}
+}
+
+@media (max-width: 781px) {
+	/* Columns ------------------------------------------------------------------ */
+	.wp-block-columns:not(.is-not-stacked-on-mobile) {
+		flex-wrap: wrap !important;
+	}
+
+	.wp-block-columns:not(.is-not-stacked-on-mobile) > .wp-block-column {
+		flex-basis: 100% !important;
+	}
+
+	/* Hero --------------------------------------------------------------------- */
+	.potw-services {
+		flex-direction: column !important;
+	}
+
+	.potw-services .wp-block-separator.is-style-vertical {
+		width: 100% !important;
+		min-height: 1px !important;
+	}
+
+	/* Lessons ------------------------------------------------------------------ */
+	.potw-prev-lessons {
+		gap: 0;
+		grid-template-columns: 1fr;
+	}
+
+	/* Call to Action ----------------------------------------------------------- */
+	.potw-cta .wp-block-cover__background {
+		opacity: 85% !important;
+	}
+
+	.potw-cta img {
+		object-position: 87% center;
+	}
+
+	.potw-cta .wp-block-columns .wp-block-column:first-child {
+		flex-basis: 100% !important;
 	}
 }

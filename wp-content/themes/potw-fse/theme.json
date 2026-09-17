@@ -11,7 +11,8 @@
       		"allowCustomContentAndWideSize": true
 		},
 		"viewport": {
-			"mobile": "45rem"
+			"tablet": "1024px",
+			"mobile": "781px"
 		},
 		"color": {
 			"defaultPalette": false,
@@ -441,7 +442,6 @@
 			"core/image": {
 				"border": {
 					"width": "0px",
-					"radius": "0px",
 					"style": "none"
 				}
 			}
