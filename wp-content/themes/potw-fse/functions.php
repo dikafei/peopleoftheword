@@ -237,7 +237,7 @@ function potw_group_editor_controls() {
 			'wp-element',
 			'wp-hooks',
 		),
-		'1.0',
+		filemtime( get_stylesheet_directory() . '/js/group-narrow-toggle.js' ),
 		true
 	);
 

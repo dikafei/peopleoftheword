@@ -3,12 +3,12 @@
 	const { createHigherOrderComponent } = wp.compose;
 	const { Fragment } = wp.element;
 	const { InspectorControls } = wp.blockEditor;
-	const { PanelBody, ToggleControl } = wp.components;
+	const { PanelBody, RadioControl } = wp.components;
 
 	const withNarrowWidthControl = createHigherOrderComponent(
 		(BlockEdit) => {
 			return (props) => {
-				// Hanya untuk Group block
+
 				if (props.name !== 'core/group') {
 					return wp.element.createElement(BlockEdit, props);
 				}
@@ -22,12 +22,13 @@
 
 				const isNarrow = classes.includes('is-narrow');
 
-				const toggleNarrow = (enabled) => {
+				const setWidth = (value) => {
+
 					let newClasses = classes.filter(
 						(classItem) => classItem !== 'is-narrow'
 					);
 
-					if (enabled) {
+					if (value === 'narrow') {
 						newClasses.push('is-narrow');
 					}
 
@@ -44,22 +45,34 @@
 
 					wp.element.createElement(
 						InspectorControls,
-						null,
+						{
+							group: 'styles',
+						},
 
 						wp.element.createElement(
 							PanelBody,
 							{
-								title: 'Layout',
+								title: 'Width',
 								initialOpen: true,
 							},
 
-							wp.element.createElement(ToggleControl, {
-								label: 'Narrow Width',
-								checked: isNarrow,
-								onChange: toggleNarrow,
-								help: isNarrow
-									? 'Group width is limited to 760px.'
-									: 'Limit this Group to 760px width.',
+							wp.element.createElement(RadioControl, {
+								selected: isNarrow
+									? 'narrow'
+									: 'default',
+
+								options: [
+									{
+										label: 'Default',
+										value: 'default',
+									},
+									{
+										label: 'Narrow',
+										value: 'narrow',
+									},
+								],
+
+								onChange: setWidth,
 							})
 						)
 					)

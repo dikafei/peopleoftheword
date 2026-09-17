@@ -25,7 +25,7 @@ Use it to make something cool, have fun, and share what you've learned with othe
    Class names below are applied to blocks via "Additional CSS class(es)".
 ----------------------------------------------------------------------- */
 
-/* Site chrome ------------------------------------------------------- */
+/* Header ------------------------------------------------------- */
 
 .potw-site-header {
 	background-color: var(--wp--preset--color--accent-1);
@@ -49,29 +49,19 @@ Use it to make something cool, have fun, and share what you've learned with othe
 	fill: var(--wp--preset--color--white);
 }
 
-.potw-site-footer {
-	background-color: var(--wp--preset--color--secondary);
-	color: var(--wp--preset--color--accent-5);
-}
+/* Footer -------------------------------------------------------- */
 
 .potw-site-footer a {
-	color: var(--wp--preset--color--accent-5);
+	color: var(--wp--preset--color--body);
 	text-decoration: none;
 }
 
 .potw-site-footer a:hover {
-	color: var(--wp--preset--color--white);
-	text-decoration: underline;
+	color: var(--wp--preset--color--secondary);
 }
 
-.potw-site-footer hr {
-	border: none;
-	border-top: 1px solid rgba(249, 241, 232, 0.25);
-}
-
-.potw-footer-bottom {
-	background-color: var(--wp--preset--color--secondary);
-	filter: brightness(0.94);
+.potw-site-footer .wp-block-group {
+	flex: 1;
 }
 
 .potw-social-icons a {
