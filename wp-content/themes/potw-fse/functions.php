@@ -103,6 +103,29 @@ add_filter( 'acf/settings/enable_datastore', '__return_true' );
  */
 add_action( 'init', function() {
 
+	// ==============================
+	// Paragraph style
+    // ==============================
+
+	// Narrow paragraph
+	wp_register_style(
+		'narrow-paragraph-style',
+		get_stylesheet_directory_uri() . '/assets/css/narrow-paragraph.css',
+		array(),
+		filemtime(
+		get_stylesheet_directory() . '/assets/css/narrow-paragraph.css'
+		)
+	);
+
+	register_block_style(
+		'core/paragraph',
+		array(
+			'name'         => 'narrow',
+			'label'        => __( 'Narrow', 'textdomain' ),
+			'style_handle' => 'narrow-paragraph-style',
+		)
+	);
+
     // ==============================
 	// Separator style
     // ==============================
