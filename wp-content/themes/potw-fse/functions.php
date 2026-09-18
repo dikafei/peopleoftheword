@@ -112,9 +112,7 @@ add_action( 'init', function() {
 		'narrow-paragraph-style',
 		get_stylesheet_directory_uri() . '/assets/css/narrow-paragraph.css',
 		array(),
-		filemtime(
-		get_stylesheet_directory() . '/assets/css/narrow-paragraph.css'
-		)
+		'1.0'
 	);
 
 	register_block_style(

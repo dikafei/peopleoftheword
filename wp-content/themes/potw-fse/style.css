@@ -25,7 +25,7 @@ Use it to make something cool, have fun, and share what you've learned with othe
    Class names below are applied to blocks via "Additional CSS class(es)".
 ----------------------------------------------------------------------- */
 
-/* Header ------------------------------------------------------- */
+/* Header Home ----------------------------------------------------------------- */
 
 .potw-site-header {
 	background-color: var(--wp--preset--color--accent-1);
@@ -47,6 +47,38 @@ Use it to make something cool, have fun, and share what you've learned with othe
 .potw-site-header .wp-block-navigation__responsive-container-open svg,
 .potw-site-header .wp-block-navigation__responsive-container-close svg {
 	fill: var(--wp--preset--color--white);
+}
+
+/* Header Default ----------------------------------------------------------------- */
+
+.potw-site-header--default {
+	z-index: 100;
+}
+
+.potw-site-header--default > .wp-block-group {
+	position: relative;
+}
+
+.potw-site-header--default > .wp-block-group > .wp-block-group {
+	padding-left: 218px;
+}
+
+.potw-logo-badge {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+/* Menu -------------------------------------------------------------------- */
+
+.wp-block-navigation__responsive-container-open {
+	padding: 1.5rem;
+	background: var(--wp--preset--color--secondary);
+	border-radius: 0.625rem;
+}
+
+.potw-register-link-mobile {
+	display: none !important;
 }
 
 /* Footer ----------------------------------------------------------------- */
@@ -435,6 +467,18 @@ Use it to make something cool, have fun, and share what you've learned with othe
 
 	.wp-block-navigation__responsive-container:not(.is-menu-open) {
 		display: none !important;
+	}
+
+	.potw-register-button {
+		display: none !important;
+	}
+
+	.potw-register-link-mobile {
+		display: flex !important;
+	}
+
+	.potw-site-header--default .wp-block-group nav .wp-block-navigation__responsive-container {
+		color: var(--wp--preset--color--heading) !important;
 	}
 }
 
