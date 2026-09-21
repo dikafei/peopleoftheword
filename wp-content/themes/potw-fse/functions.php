@@ -264,3 +264,226 @@ function potw_group_editor_controls() {
 
 }
 add_action( 'enqueue_block_editor_assets', 'potw_group_editor_controls' );
+
+
+/**
+ * Get a list of H2 & H3 headings from a lesson, complete with
+ * nested numbering (1, 2, 3... and 4.1, 4.2, 4.3 for H3s below the 4th H2).
+ * Results are cached per request to avoid repeated parsing.
+ */
+function lesson_toc_get_headings( $post_id ) {
+    static $cache = array();
+
+    if ( isset( $cache[ $post_id ] ) ) {
+        return $cache[ $post_id ];
+    }
+
+    $content = get_post_field( 'post_content', $post_id );
+
+    if ( ! preg_match_all( '/<h([2-3])[^>]*>(.*?)<\/h[2-3]>/is', $content, $matches, PREG_SET_ORDER ) ) {
+        return $cache[ $post_id ] = array();
+    }
+
+    $headings   = array();
+    $index      = 0;
+    $h2_counter = 0;
+    $h3_counter = 0;
+
+    foreach ( $matches as $match ) {
+        $level = (int) $match[1];
+        $title = wp_strip_all_tags( $match[2] );
+        $slug  = sanitize_title( $title ) . '-' . $index++;
+
+        if ( 2 === $level ) {
+            $h2_counter++;
+            $h3_counter = 0;
+            $number = (string) $h2_counter;
+        } else {
+            $h3_counter++;
+            $number = $h2_counter . '.' . $h3_counter;
+        }
+
+        $headings[] = array(
+            'level'  => $level,
+            'title'  => $title,
+            'slug'   => $slug,
+            'number' => $number,
+            'raw'    => $match[0],
+        );
+    }
+
+    return $cache[ $post_id ] = $headings;
+}
+
+/**
+ * Insert an ID for each H2/H3 heading in the lesson content,
+ * so links from the TOC can jump to the correct section.
+ */
+add_filter( 'the_content', 'lesson_toc_inject_heading_ids' );
+
+function lesson_toc_inject_heading_ids( $content ) {
+    if ( ! is_singular( 'lesson' ) || ! is_main_query() || ! in_the_loop() ) {
+        return $content;
+    }
+
+    foreach ( lesson_toc_get_headings( get_the_ID() ) as $heading ) {
+        $with_id = preg_replace( '/<h(\d)([^>]*)>/i', '<h$1$2 id="' . esc_attr( $heading['slug'] ) . '">', $heading['raw'], 1 );
+        $content = preg_replace( '/' . preg_quote( $heading['raw'], '/' ) . '/', $with_id, $content, 1 );
+    }
+
+    return $content;
+}
+
+/**
+ * Shortcode: [lesson_toc]
+ * Render a complete table of contents with nested numbers.
+ */
+add_shortcode( 'lesson_toc', 'lesson_toc_render_shortcode' );
+
+function lesson_toc_render_shortcode( $atts ) {
+    $atts    = shortcode_atts( array( 'id' => get_the_ID() ), $atts );
+    $post_id = (int) $atts['id'];
+
+    if ( ! $post_id || 'lesson' !== get_post_type( $post_id ) ) {
+        return '';
+    }
+
+    $headings = lesson_toc_get_headings( $post_id );
+    if ( empty( $headings ) ) {
+        return '';
+    }
+
+    $html = '<nav class="lesson-toc" aria-label="Table of Contents">';
+    $html .= '<p class="lesson-toc__title">Table of Contents</p><ul class="lesson-toc__list">';
+
+    $open_sub = false;
+
+    foreach ( $headings as $i => $h ) {
+        if ( 2 === $h['level'] ) {
+            $html .= $open_sub ? '</ul></li>' : ( $i > 0 ? '</li>' : '' );
+            $open_sub = false;
+
+            $has_children = isset( $headings[ $i + 1 ] ) && 3 === $headings[ $i + 1 ]['level'];
+
+            $html .= '<li class="toc-item toc-item--h2">';
+            $html .= '<span class="toc-number">' . esc_html( $h['number'] ) . '</span>';
+            $html .= '<a href="#' . esc_attr( $h['slug'] ) . '">' . esc_html( $h['title'] ) . '</a>';
+
+            if ( $has_children ) {
+                $html .= '<ul class="lesson-toc__sublist">';
+                $open_sub = true;
+            }
+        } else {
+            $html .= '<li class="toc-item toc-item--h3">';
+            $html .= '<span class="toc-number">' . esc_html( $h['number'] ) . '</span>';
+            $html .= '<a href="#' . esc_attr( $h['slug'] ) . '">' . esc_html( $h['title'] ) . '</a></li>';
+        }
+    }
+
+    $html .= $open_sub ? '</ul></li>' : '</li>';
+    $html .= '</ul></nav>';
+
+    return $html;
+}
+
+
+/**
+ * Register lecture repeater in single lesson
+ */
+function lesson_repeater_shortcode() {
+    if ( ! have_rows('lesson_file') ) {
+        return '';
+    }
+
+    ob_start();
+    ?>
+    <div class="lesson-repeater-wrap">
+        <h2 class="lesson-repeater-title">Lecture</h2>
+        <div class="lesson-repeater-box">
+            <?php
+            $i = 0;
+            while ( have_rows('lesson_file') ) : the_row();
+                $i++;
+                $lecturer_name = get_sub_field('lecturer_name');
+                $lesson_year   = get_sub_field('lesson_year');
+                $lesson_pdf    = get_sub_field('lesson_pdf');
+                $lesson_word   = get_sub_field('lesson_word');
+            ?>
+            <?php if ( $i > 1 ) : ?>
+                <hr class="lesson-repeater-divider">
+            <?php endif; ?>
+
+            <div class="lesson-repeater-item">
+                <div class="lesson-repeater-header">
+                    <?php if ( $lesson_year ) : ?>
+                        <span class="lesson-repeater-year"><?php echo esc_html( $lesson_year ); ?></span>
+                    <?php endif; ?>
+                    <span class="lesson-repeater-name"><?php echo esc_html( $lecturer_name ); ?></span>
+                </div>
+
+                <div class="lesson-repeater-buttons">
+                    <?php if ( $lesson_pdf ) : ?>
+                        <a href="<?php echo esc_url( $lesson_pdf ); ?>" class="lesson-repeater-btn" target="_blank">PDF</a>
+                    <?php endif; ?>
+
+                    <?php if ( $lesson_word ) : ?>
+                        <a href="<?php echo esc_url( $lesson_word ); ?>" class="lesson-repeater-btn" target="_blank">Word</a>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <?php endwhile; ?>
+        </div>
+    </div>
+    <?php
+    return ob_get_clean();
+}
+add_shortcode('lesson_repeater', 'lesson_repeater_shortcode');
+
+function homework_repeater_shortcode() {
+    if ( ! have_rows('homework_file') ) {
+        return '';
+    }
+
+    ob_start();
+    ?>
+    <div class="lesson-repeater-wrap">
+        <h2 class="lesson-repeater-title">Homework</h2>
+        <div class="lesson-repeater-box">
+            <?php
+            $i = 0;
+            while ( have_rows('homework_file') ) : the_row();
+                $i++;
+                $homework_lecturer_name = get_sub_field('homework_lecturer_name');
+                $homework_year          = get_sub_field('homework_year');
+                $homework_pdf           = get_sub_field('homework_pdf');
+                $homework_word          = get_sub_field('homework_word');
+            ?>
+            <?php if ( $i > 1 ) : ?>
+                <hr class="lesson-repeater-divider">
+            <?php endif; ?>
+
+            <div class="lesson-repeater-item">
+                <div class="lesson-repeater-header">
+                    <?php if ( $homework_year ) : ?>
+                        <span class="lesson-repeater-year"><?php echo esc_html( $homework_year ); ?></span>
+                    <?php endif; ?>
+                    <span class="lesson-repeater-name"><?php echo esc_html( $homework_lecturer_name ); ?></span>
+                </div>
+
+                <div class="lesson-repeater-buttons">
+                    <?php if ( $homework_pdf ) : ?>
+                        <a href="<?php echo esc_url( $homework_pdf ); ?>" class="lesson-repeater-btn" target="_blank">PDF</a>
+                    <?php endif; ?>
+
+                    <?php if ( $homework_word ) : ?>
+                        <a href="<?php echo esc_url( $homework_word ); ?>" class="lesson-repeater-btn" target="_blank">Word</a>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <?php endwhile; ?>
+        </div>
+    </div>
+    <?php
+    return ob_get_clean();
+}
+add_shortcode('homework_repeater', 'homework_repeater_shortcode');

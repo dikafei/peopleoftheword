@@ -173,7 +173,6 @@ Use it to make something cool, have fun, and share what you've learned with othe
     border: none;
     background-color: var(--wp--preset--color--accent-4);
     align-self: stretch;
-    margin: 0 auto;
 }
 
 /* Groups ------------------------------------------------------------------ */
@@ -293,78 +292,127 @@ Use it to make something cool, have fun, and share what you've learned with othe
 
 /* Single post: table of contents sidebar ---------------------------------- */
 
-.potw-toc {
-	background-color: var(--wp--preset--color--accent-5);
-	border-radius: var(--wp--custom--radius--large);
+.lesson-toc {
+    border: 1px solid #e5ded2;
+    border-radius: 1.5rem;
+    padding: var(--wp--preset--spacing--24);
+	background: var(--wp--preset--color--accent-5);
 }
 
-.potw-toc ol {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-	counter-reset: toc;
+.lesson-toc__title {
+	font-family: var(--wp--preset--font-family--heading);
+    font-size: var(--wp--preset--font-size--body);
+	margin-top: 0;
+    margin-bottom: 1rem;
 }
 
-.potw-toc li {
-	display: flex;
-	align-items: center;
-	gap: 10px;
-	margin: 0 0 10px;
+.lesson-toc__list,
+.lesson-toc__sublist {
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
-.potw-toc li a {
-	color: var(--wp--preset--color--body);
-	text-decoration: none;
-	font-family: var(--wp--preset--font-family--ui);
-	font-size: 0.9rem;
+.lesson-toc__sublist {
+    margin-left: 1rem;
+    margin-top: 0.25rem;
+	flex-basis: 100%;
 }
 
-.potw-toc li a:hover {
-	color: var(--wp--preset--color--primary);
+.toc-item {
+    display: flex;
+	flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 0.6rem;
+    margin-bottom: 0.6rem;
 }
 
-.potw-toc .potw-toc-index {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	min-width: 30px;
-	height: 30px;
-	padding: 0 6px;
-	border-radius: 6px;
-	background-color: var(--wp--preset--color--accent-4);
-	color: var(--wp--preset--color--accent-2);
-	font-family: var(--wp--preset--font-family--ui);
-	font-size: 0.85rem;
-	flex-shrink: 0;
+.toc-number {
+    flex-shrink: 0;
+    background: var(--wp--preset--color--accent-4);
+    color: var(--wp--preset--color--accent-2);
+    font-size: 0.75rem;
+    border-radius: 0.375rem;
+    width: 1.4rem;
+    height: 1.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+	margin-top: 0.125rem;
 }
 
-.potw-toc li.potw-toc-sub {
-	padding-inline-start: 20px;
+.toc-item a {
+	font-size: var(--wp--preset--font-size--heading-6);
+    text-decoration: none;
+    color: inherit;
 }
 
-/* Single post: download cards ------------------------------------------------ */
-
-.potw-download-card {
-	background-color: var(--wp--preset--color--accent-5);
-	border-radius: var(--wp--custom--radius--large);
+.toc-item a:hover {
+    text-decoration: underline;
 }
 
-.potw-download-row + .potw-download-row {
-	border-top: 1px solid var(--wp--preset--color--accent-4);
-	padding-top: 20px;
-	margin-top: 20px;
+/* Single post: lecture cards ------------------------------------------------ */
+
+.lesson-repeater-wrap {
+    max-width: 100%;
 }
 
-.potw-download-year {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	padding: 4px 8px;
-	border-radius: 5px;
-	background-color: var(--wp--preset--color--accent-4);
-	color: var(--wp--preset--color--body);
-	font-family: var(--wp--preset--font-family--ui);
-	font-size: 0.9rem;
+.lesson-repeater-title {
+    font-family: var(--wp--preset--font-size--heading);
+    font-size: var(--wp--preset--font-size--heading-4);
+    margin-bottom: var(--wp--preset--spacing--16);
+}
+
+.lesson-repeater-box {
+    background-color: var(--wp--preset--color--accent-5);
+    border-radius: var(--wp--preset--spacing--16);
+    padding: var(--wp--preset--spacing--24);
+}
+
+.lesson-repeater-divider {
+    border: none;
+    border-top: 1px solid #e0cbb0;
+    margin: 20px 0;
+}
+
+.lesson-repeater-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.lesson-repeater-year {
+    background-color: #e6d3bd;
+    color: #333;
+    font-size: 13px;
+    padding: 4px 10px;
+    border-radius: 6px;
+}
+
+.lesson-repeater-name {
+    font-family: serif;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.lesson-repeater-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.lesson-repeater-btn {
+    border: 1px solid #b8895c;
+    color: #b8895c;
+    padding: 8px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-family: serif;
+}
+
+.lesson-repeater-btn:hover {
+    background-color: #b8895c;
+    color: #fff;
 }
 
 /* Single post: scripture blockquote ------------------------------------------ */
