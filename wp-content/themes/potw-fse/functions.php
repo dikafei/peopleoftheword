@@ -98,6 +98,7 @@ add_action( 'after_setup_theme', 'potw_fse_menus' );
  */
 add_filter( 'acf/settings/enable_datastore', '__return_true' );
 
+
 /**
  * Add new styles in block editor
  */
@@ -110,7 +111,7 @@ add_action( 'init', function() {
 	// Narrow paragraph
 	wp_register_style(
 		'narrow-paragraph-style',
-		get_stylesheet_directory_uri() . '/assets/css/narrow-paragraph.css',
+		get_stylesheet_directory_uri() . '/css/narrow-paragraph.css',
 		array(),
 		'1.0'
 	);
@@ -250,7 +251,7 @@ function potw_group_editor_controls() {
 
 	wp_enqueue_script(
 		'potw-group-narrow-toggle',
-		get_stylesheet_directory_uri() . '/js/group-narrow-toggle.js',
+		get_stylesheet_directory_uri() . '/assets/js/group-narrow-toggle.js',
 		array(
 			'wp-block-editor',
 			'wp-components',
@@ -258,7 +259,7 @@ function potw_group_editor_controls() {
 			'wp-element',
 			'wp-hooks',
 		),
-		filemtime( get_stylesheet_directory() . '/js/group-narrow-toggle.js' ),
+		filemtime( get_stylesheet_directory() . '/assets/js/group-narrow-toggle.js' ),
 		true
 	);
 
@@ -418,7 +419,7 @@ function lesson_repeater_shortcode() {
                     <?php if ( $lesson_year ) : ?>
                         <span class="lesson-repeater-year"><?php echo esc_html( $lesson_year ); ?></span>
                     <?php endif; ?>
-                    <span class="lesson-repeater-name"><?php echo esc_html( $lecturer_name ); ?></span>
+                        <span class="lesson-repeater-name"><?php echo esc_html( $lecturer_name ); ?></span>
                 </div>
 
                 <div class="lesson-repeater-buttons">
@@ -467,7 +468,7 @@ function homework_repeater_shortcode() {
                     <?php if ( $homework_year ) : ?>
                         <span class="lesson-repeater-year"><?php echo esc_html( $homework_year ); ?></span>
                     <?php endif; ?>
-                    <span class="lesson-repeater-name"><?php echo esc_html( $homework_lecturer_name ); ?></span>
+                        <span class="lesson-repeater-name"><?php echo esc_html( $homework_lecturer_name ); ?></span>
                 </div>
 
                 <div class="lesson-repeater-buttons">
@@ -555,7 +556,7 @@ function lesson_media_enqueue_assets() {
     if ( is_singular() ) {
         wp_enqueue_script(
             'lesson-media-js',
-            get_stylesheet_directory_uri() . '/js/lesson-media.js',
+            get_stylesheet_directory_uri() . '/assets/js/lesson-media.js',
             array(),
             '1.0',
             true

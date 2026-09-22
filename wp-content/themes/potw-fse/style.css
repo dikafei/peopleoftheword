@@ -358,7 +358,7 @@ Use it to make something cool, have fun, and share what you've learned with othe
 }
 
 .lesson-repeater-title {
-    font-family: var(--wp--preset--font-size--heading);
+    font-family: var(--wp--preset--font-family--heading);
     font-size: var(--wp--preset--font-size--heading-4);
     margin-bottom: var(--wp--preset--spacing--16);
 }
