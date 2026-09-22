@@ -433,23 +433,95 @@ Use it to make something cool, have fun, and share what you've learned with othe
 
 /* Player bar (audio/video toggle header) -------------------------------------- */
 
-.potw-player-toggle {
-	display: inline-flex;
-	border-radius: var(--wp--custom--radius--medium);
-	overflow: clip;
-	border: 1px solid var(--wp--preset--color--accent-2);
+.lesson-media-player {
+    max-width: 1440px;
+    margin: 0 auto 24px;
 }
 
-.potw-player-toggle span {
-	padding: 8px 16px;
-	font-family: var(--wp--preset--font-family--ui);
-	font-size: 0.9rem;
-	color: var(--wp--preset--color--accent-2);
+.lesson-media-video-panel {
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 16px;
 }
 
-.potw-player-toggle span.is-active {
-	background-color: var(--wp--preset--color--accent-2);
-	color: var(--wp--preset--color--white);
+.lesson-media-video-el {
+    width: 100%;
+    display: block;
+}
+
+.lesson-media-audio-panel {
+    margin-bottom: 16px;
+}
+
+.lesson-media-title {
+    color: #f3ead9;
+    font-family: serif;
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+.lesson-media-audio-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.lesson-media-play-btn {
+    background: none;
+    border: none;
+    color: #f3ead9;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.lesson-media-time {
+    color: #cbb89d;
+    font-size: 13px;
+    min-width: 40px;
+}
+
+.lesson-media-seek {
+    flex: 1;
+    accent-color: #cbb89d;
+}
+
+.lesson-media-toolbar {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+}
+
+.lesson-media-tabs {
+    grid-column: 2;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.lesson-media-tab-btn {
+    background: #4a3b2c;
+    border: none;
+    color: #cbb89d;
+    font-size: 16px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.lesson-media-tab-btn.is-active {
+    background: #cbb89d;
+    color: #3a2e22;
+}
+
+.lesson-media-download-btn {
+    grid-column: 3;
+    justify-self: end;
+}
+
+.lesson-media-download-btn:hover {
+    background: #cbb89d;
+    color: #3a2e22;
 }
 
 /* Newsletter form ------------------------------------------------------------- */

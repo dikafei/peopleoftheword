@@ -487,3 +487,79 @@ function homework_repeater_shortcode() {
     return ob_get_clean();
 }
 add_shortcode('homework_repeater', 'homework_repeater_shortcode');
+
+
+/**
+ * Add lesson podcast and video to single lessons
+ */
+function lesson_media_shortcode() {
+    $video   = get_field('lesson_video');
+    $podcast = get_field('lesson_podcast');
+
+    if ( ! $video && ! $podcast ) {
+        return '';
+    }
+
+    $default_tab = $video ? 'video' : 'podcast';
+
+    $download_url  = ( $default_tab === 'video' ) ? $video['url'] : $podcast['url'];
+    $download_name = ( $default_tab === 'video' ) ? $video['filename'] : $podcast['filename'];
+
+    ob_start();
+    ?>
+    <div class="lesson-media-player"
+         data-active="<?php echo esc_attr( $default_tab ); ?>"
+         <?php if ( $video ) : ?>data-video-url="<?php echo esc_url( $video['url'] ); ?>" data-video-name="<?php echo esc_attr( $video['filename'] ); ?>"<?php endif; ?>
+         <?php if ( $podcast ) : ?>data-podcast-url="<?php echo esc_url( $podcast['url'] ); ?>" data-podcast-name="<?php echo esc_attr( $podcast['filename'] ); ?>"<?php endif; ?>>
+
+        <?php if ( $video ) : ?>
+        <div class="lesson-media-panel lesson-media-video-panel" data-panel="video" <?php echo ( $default_tab !== 'video' ) ? 'style="display:none;"' : ''; ?>>
+            <video class="lesson-media-video-el" src="<?php echo esc_url( $video['url'] ); ?>" controls playsinline></video>
+        </div>
+        <?php endif; ?>
+
+        <?php if ( $podcast ) : ?>
+        <div class="lesson-media-panel lesson-media-audio-panel" data-panel="podcast" <?php echo ( $default_tab !== 'podcast' ) ? 'style="display:none;"' : ''; ?>>
+            <p class="lesson-media-title"><?php echo esc_html( get_the_title() ); ?></p>
+            <audio class="lesson-media-audio-el" src="<?php echo esc_url( $podcast['url'] ); ?>" preload="metadata"></audio>
+            <div class="lesson-media-audio-controls">
+                <button type="button" class="lesson-media-play-btn" aria-label="Play/Pause">
+                    <span class="icon-play">&#9658;</span>
+                    <span class="icon-pause" style="display:none;">&#10074;&#10074;</span>
+                </button>
+                <span class="lesson-media-time lesson-media-current">00:00</span>
+                <input type="range" class="lesson-media-seek" min="0" max="100" value="0" step="0.1">
+                <span class="lesson-media-time lesson-media-remaining">-00:00</span>
+            </div>
+        </div>
+        <?php endif; ?>
+
+        <div class="lesson-media-toolbar">
+            <div class="lesson-media-tabs">
+                <?php if ( $video ) : ?>
+                    <button type="button" class="lesson-media-tab-btn <?php echo ( $default_tab === 'video' ) ? 'is-active' : ''; ?>" data-tab="video" aria-label="Video">&#127909;</button>
+                <?php endif; ?>
+                <?php if ( $podcast ) : ?>
+                    <button type="button" class="lesson-media-tab-btn <?php echo ( $default_tab === 'podcast' ) ? 'is-active' : ''; ?>" data-tab="podcast" aria-label="Podcast">&#127908;</button>
+                <?php endif; ?>
+            </div>
+            <a href="<?php echo esc_url( $download_url ); ?>" class="lesson-media-download-btn" download="<?php echo esc_attr( $download_name ); ?>">&#8681; Download</a>
+        </div>
+    </div>
+    <?php
+    return ob_get_clean();
+}
+add_shortcode('lesson_media', 'lesson_media_shortcode');
+
+function lesson_media_enqueue_assets() {
+    if ( is_singular() ) {
+        wp_enqueue_script(
+            'lesson-media-js',
+            get_stylesheet_directory_uri() . '/js/lesson-media.js',
+            array(),
+            '1.0',
+            true
+        );
+    }
+}
+add_action( 'wp_enqueue_scripts', 'lesson_media_enqueue_assets' );
