@@ -436,7 +436,10 @@ function lesson_repeater_shortcode() {
         </div>
     </div>
     <?php
-    return ob_get_clean();
+    $html = ob_get_clean();
+    // Remove space/enter <p>
+    $html = preg_replace( '/>\s+</', '><', $html );
+    return trim( $html );
 }
 add_shortcode('lesson_repeater', 'lesson_repeater_shortcode');
 
@@ -485,7 +488,10 @@ function homework_repeater_shortcode() {
         </div>
     </div>
     <?php
-    return ob_get_clean();
+    $html = ob_get_clean();
+    // Remove space/enter <p>
+    $html = preg_replace( '/>\s+</', '><', $html );
+    return trim( $html );
 }
 add_shortcode('homework_repeater', 'homework_repeater_shortcode');
 
@@ -494,6 +500,10 @@ add_shortcode('homework_repeater', 'homework_repeater_shortcode');
  * Add lesson podcast and video to single lessons
  */
 function lesson_media_shortcode() {
+    remove_filter( 'the_content', 'wpautop' );
+    remove_filter( 'the_excerpt', 'wpautop' );
+    remove_filter( 'acf_the_content', 'wpautop' );
+
     $video   = get_field('lesson_video');
     $podcast = get_field('lesson_podcast');
 
@@ -538,17 +548,28 @@ function lesson_media_shortcode() {
         <div class="lesson-media-toolbar">
             <div class="lesson-media-tabs">
                 <?php if ( $video ) : ?>
-                    <button type="button" class="lesson-media-tab-btn <?php echo ( $default_tab === 'video' ) ? 'is-active' : ''; ?>" data-tab="video" aria-label="Video">&#127909;</button>
+                    <button type="button" class="lesson-media-tab-btn <?php echo ( $default_tab === 'video' ) ? 'is-active' : ''; ?>" data-tab="video" aria-label="Video">
+                        <img class="lesson-media-tab-icon" src="/wp-content/uploads/2026/10/video-tab-icon.svg" alt="" aria-hidden="true">
+                    </button>
                 <?php endif; ?>
                 <?php if ( $podcast ) : ?>
-                    <button type="button" class="lesson-media-tab-btn <?php echo ( $default_tab === 'podcast' ) ? 'is-active' : ''; ?>" data-tab="podcast" aria-label="Podcast">&#127908;</button>
+                    <button type="button" class="lesson-media-tab-btn <?php echo ( $default_tab === 'podcast' ) ? 'is-active' : ''; ?>" data-tab="podcast" aria-label="Podcast">
+                        <img class="lesson-media-tab-icon" src="/wp-content/uploads/2026/10/podcast-tab-icon.svg" alt="" aria-hidden="true">
+                    </button>
                 <?php endif; ?>
             </div>
-            <a href="<?php echo esc_url( $download_url ); ?>" class="lesson-media-download-btn" download="<?php echo esc_attr( $download_name ); ?>">&#8681; Download</a>
+            <div class="lesson-media-download-wrap">
+                <a href="<?php echo esc_url( $download_url ); ?>" class="lesson-media-download-btn" download="<?php echo esc_attr( $download_name ); ?>">
+                    <img class="lesson-media-tab-icon" src="/wp-content/uploads/2026/10/download-tab-icon.svg" alt="" aria-hidden="true"> Download
+                </a>
+            </div>
         </div>
     </div>
     <?php
-    return ob_get_clean();
+    $html = ob_get_clean();
+    $html = preg_replace( '/\s+/', ' ', $html );      // semua enter/spasi ganda jadi satu spasi
+    $html = preg_replace( '/>\s+</', '><', $html );   // buang spasi antar tag
+    return trim( $html );
 }
 add_shortcode('lesson_media', 'lesson_media_shortcode');
 

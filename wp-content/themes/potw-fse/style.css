@@ -69,6 +69,10 @@ Use it to make something cool, have fun, and share what you've learned with othe
 	left: 0;
 }
 
+.potw-logo-badge img {
+	width: 145px;
+}
+
 /* Menu -------------------------------------------------------------------- */
 
 .wp-block-navigation__responsive-container-open {
@@ -383,17 +387,16 @@ Use it to make something cool, have fun, and share what you've learned with othe
 }
 
 .lesson-repeater-year {
-    background-color: #e6d3bd;
-    color: #333;
-    font-size: 13px;
+    background-color: var(--wp--preset--color--accent-4);
+    color: var(--wp--preset--color--body);
+    font-size: 18px;
     padding: 4px 10px;
     border-radius: 6px;
 }
 
 .lesson-repeater-name {
-    font-family: serif;
-    font-size: 18px;
-    font-weight: bold;
+    font-family: var(--wp--preset--font-family--heading);
+    font-size: var(--wp--preset--font-size--heading-5);
 }
 
 .lesson-repeater-buttons {
@@ -402,16 +405,16 @@ Use it to make something cool, have fun, and share what you've learned with othe
 }
 
 .lesson-repeater-btn {
-    border: 1px solid #b8895c;
-    color: #b8895c;
+    border: 1px solid var(--wp--preset--color--primary);
+    color: var(--wp--preset--color--accent-2);
     padding: 8px 20px;
     border-radius: 8px;
     text-decoration: none;
-    font-family: serif;
+    font-family: var(--wp--preset--font-family--body);
 }
 
 .lesson-repeater-btn:hover {
-    background-color: #b8895c;
+    background-color: var(--wp--preset--color--primary);
     color: #fff;
 }
 
@@ -432,6 +435,10 @@ Use it to make something cool, have fun, and share what you've learned with othe
 }
 
 /* Player bar (audio/video toggle header) -------------------------------------- */
+
+.potw-media-single {
+	padding-top: 3.125rem;
+}
 
 .lesson-media-player {
     max-width: 1440px;
@@ -507,6 +514,11 @@ Use it to make something cool, have fun, and share what you've learned with othe
     padding: 8px 12px;
     border-radius: 8px;
     cursor: pointer;
+	width: 54px;
+	height: 54px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .lesson-media-tab-btn.is-active {
@@ -515,13 +527,20 @@ Use it to make something cool, have fun, and share what you've learned with othe
 }
 
 .lesson-media-download-btn {
-    grid-column: 3;
-    justify-self: end;
+    padding: 12px 24px;
+	border: 1px solid var(--wp--preset--color--primary);
+	border-radius: 10px;
+	color: var(--wp--preset--color--accent-4);
 }
 
 .lesson-media-download-btn:hover {
-    background: #cbb89d;
-    color: #3a2e22;
+    background: var(--wp--preset--color--primary);
+    color: var(--wp--preset--color--accent-4);
+}
+
+.lesson-media-download-wrap {
+	display: flex;
+	justify-content: flex-end;
 }
 
 /* Newsletter form ------------------------------------------------------------- */
