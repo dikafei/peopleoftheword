@@ -53,6 +53,7 @@ Use it to make something cool, have fun, and share what you've learned with othe
 
 .potw-site-header--default {
 	z-index: 100;
+	background: url(/wp-content/uploads/2026/10/header-pattern-bg.webp) bottom;
 }
 
 .potw-site-header--default > .wp-block-group {
@@ -438,10 +439,11 @@ Use it to make something cool, have fun, and share what you've learned with othe
 
 .potw-media-single {
 	padding-top: 3.125rem;
+	background: url(/wp-content/uploads/2026/10/header-pattern-bg.webp);
 }
 
 .lesson-media-player {
-    max-width: 1440px;
+    max-width: 1140px;
     margin: 0 auto 24px;
 }
 
@@ -462,8 +464,8 @@ Use it to make something cool, have fun, and share what you've learned with othe
 }
 
 .lesson-media-title {
-    color: #f3ead9;
-    font-family: serif;
+    color: var(--wp--preset--color--accent-4);
+    font-family: var(--wp--preset--font-family--heading);
     text-align: center;
     margin-bottom: 12px;
 }
