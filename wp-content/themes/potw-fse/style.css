@@ -531,6 +531,7 @@ Use it to make something cool, have fun, and share what you've learned with othe
 	border: 1px solid var(--wp--preset--color--primary);
 	border-radius: 10px;
 	color: var(--wp--preset--color--accent-4);
+	font-size: 18px;
 }
 
 .lesson-media-download-btn:hover {
