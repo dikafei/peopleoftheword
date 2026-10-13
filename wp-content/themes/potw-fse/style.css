@@ -259,6 +259,136 @@ nav ul.wp-block-navigation__container li a:hover {
 	background: #394625 !important;
 }
 
+/* Archives: Lesson cards ------------------------------------------------------------ */
+
+/* ===== List view: fixed-size image, full-width content ===== */
+
+/* ===== List view: fixed-width image, equal height with content ===== */
+
+/* Row stretches its children to the same height */
+html:not(.view-grid) .post-view-area .post-card {
+  align-items: stretch;
+  flex-wrap: nowrap;
+}
+
+/* Image column: fixed 300px width, height follows the card (= the text height) */
+html:not(.view-grid) .post-view-area .post-card .wp-block-post-featured-image {
+  flex: 0 0 300px;
+  width: 300px !important;
+  height: auto !important;
+  min-height: 300px; /* the card is never shorter than 300px */
+  margin: 0;
+  position: relative;
+}
+
+/* The image fills the whole box and is cropped, not stretched */
+html:not(.view-grid) .post-view-area .post-card .wp-block-post-featured-image img {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+}
+
+/* Content on the right takes all the remaining width */
+html:not(.view-grid) .post-view-area .post-card > .wp-block-group {
+  flex: 1 1 0;
+  min-width: 0;
+  width: 100%;
+  padding: 2rem !important;
+  border-radius: 1.5rem;
+  background: var(--wp--preset--color--accent-5);
+}
+
+/* ===== Post view switcher (list / grid) ===== */
+
+/* Default = list view: one card per row */
+.post-view-area .wp-block-post-template {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  padding: 0;
+  list-style: none;
+}
+
+/* Remove the default block-flow spacing between items, the grid gap handles it */
+.post-view-area .wp-block-post-template > li {
+  margin: 0;
+}
+
+/* Grid view: 2 columns on desktop (change to 3 if you want 3 columns) */
+html.view-grid .post-view-area .wp-block-post-template {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+/* Grid view: stack the card content vertically (image on top, text below) */
+html.view-grid .post-view-area .post-card {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: stretch;
+}
+
+/* Grid view: image fills the card width with a fixed ratio */
+html.view-grid .post-view-area .post-card .wp-block-post-featured-image {
+  width: 100% !important; /* overrides the size set in the block settings */
+  margin: 0;
+}
+
+html.view-grid .post-view-area .post-card .wp-block-post-featured-image img {
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+/* Grid view: text area takes the full card width */
+html.view-grid .post-view-area .post-card > .wp-block-group {
+  width: 100%;
+  padding: 2rem !important;
+  border-radius: 1.5rem;
+  background: var(--wp--preset--color--accent-5);
+}
+
+/* Keep the date range on one line as much as possible */
+.post-view-area .post-dates {
+  gap: 8px;
+  white-space: nowrap;
+}
+
+/* Tablet and mobile: grid becomes 1 column */
+@media (max-width: 782px) {
+  html.view-grid .post-view-area .wp-block-post-template {
+    grid-template-columns: 1fr;
+  }
+
+  html:not(.view-grid) ul.potw-archives li .post-card .wp-block-post-featured-image {
+	display: none;
+  }
+
+  html:not(.view-grid) ul.potw-archives li .post-card > .wp-block-group {
+	padding: 2rem !important;
+	width: 100%;
+	border-radius: 1.5rem;
+	background: var(--wp--preset--color--accent-5);
+  }
+}
+
+/* Small screens: allow the dates to wrap if there is no room */
+@media (max-width: 600px) {
+  .post-view-area .post-dates {
+    white-space: normal;
+  }
+}
+
+/* Switch buttons: pointer cursor, inactive button looks dimmed */
+.view-switch .wp-block-button__link {
+  cursor: pointer;
+}
+
+.view-switch .wp-block-button:not(.is-active) .wp-block-button__link {
+  opacity: 0.55;
+}
+
 /* Memory verse callout ---------------------------------------------------- */
 
 .potw-memory-verse {

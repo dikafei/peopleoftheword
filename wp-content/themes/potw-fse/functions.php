@@ -585,3 +585,18 @@ function lesson_media_enqueue_assets() {
     }
 }
 add_action( 'wp_enqueue_scripts', 'lesson_media_enqueue_assets' );
+
+
+/**
+ * Grid / list view switcher for post loops
+ */
+function potw_grid_list_enqueue_assets() {
+	wp_enqueue_script(
+		'potw-grid-list',
+		get_stylesheet_directory_uri() . '/assets/js/grid-list.js',
+		array(),
+		filemtime( get_stylesheet_directory() . '/assets/js/grid-list.js' ),
+		false // false = load in <head>, so the saved view applies before the page paints
+	);
+}
+add_action( 'wp_enqueue_scripts', 'potw_grid_list_enqueue_assets' );
