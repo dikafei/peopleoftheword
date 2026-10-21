@@ -24,6 +24,7 @@
 
 # Ignore all plugins except rrhub-directories
 /wp-content/plugins/*
+!/wp-content/plugins/potw-lesson-importer/
 
 # ==================================
 # Standard Development Exclusions

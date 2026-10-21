@@ -57,7 +57,7 @@ function potw_fse_assets() {
 		'potw-fse-style',
 		get_stylesheet_uri(),
 		array( 'potw-fse-google-fonts' ),
-		POTW_FSE_VERSION
+		filemtime( get_stylesheet_directory() . '/style.css' ) // bust browser cache whenever style.css changes.
 	);
 }
 add_action( 'wp_enqueue_scripts', 'potw_fse_assets' );
@@ -97,6 +97,20 @@ add_action( 'after_setup_theme', 'potw_fse_menus' );
  * Active the attribute panel in block editor
  */
 add_filter( 'acf/settings/enable_datastore', '__return_true' );
+
+/**
+ * Current Session page: whole study year + study-year switcher.
+ */
+if ( file_exists( get_stylesheet_directory() . '/inc/lesson-sessions.php' ) ) {
+	require_once get_stylesheet_directory() . '/inc/lesson-sessions.php';
+}
+
+/**
+ * Hide empty Memory Verse blocks; placeholder for lessons without a thumbnail.
+ */
+if ( file_exists( get_stylesheet_directory() . '/inc/lesson-cards.php' ) ) {
+	require_once get_stylesheet_directory() . '/inc/lesson-cards.php';
+}
 
 
 /**
@@ -270,6 +284,11 @@ add_action( 'enqueue_block_editor_assets', 'potw_group_editor_controls' );
 /**
  * Get a list of H2 & H3 headings from a lesson, complete with
  * nested numbering (1, 2, 3... and 4.1, 4.2, 4.3 for H3s below the 4th H2).
+ *
+ * When the body holds several lectures (".potw-lecture" groups, one per
+ * lecturer — see the POTW Lesson Importer), every heading records which
+ * lecture it belongs to ('lecture' => 0, 1, …) and numbering restarts per
+ * lecture. Headings outside any lecture get 'lecture' => -1.
  * Results are cached per request to avoid repeated parsing.
  */
 function lesson_toc_get_headings( $post_id ) {
@@ -281,18 +300,48 @@ function lesson_toc_get_headings( $post_id ) {
 
     $content = get_post_field( 'post_content', $post_id );
 
-    if ( ! preg_match_all( '/<h([2-3])[^>]*>(.*?)<\/h[2-3]>/is', $content, $matches, PREG_SET_ORDER ) ) {
+    if ( ! preg_match_all( '/<h([2-3])[^>]*>(.*?)<\/h[2-3]>/is', $content, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE ) ) {
         return $cache[ $post_id ] = array();
+    }
+
+    // Where each lecture starts / ends in the content.
+    $lecture_starts = array();
+    if ( preg_match_all( '/<div class="[^"]*\bpotw-lecture\b(?!s)[^"]*"/', $content, $lm, PREG_OFFSET_CAPTURE ) ) {
+        $lecture_starts = wp_list_pluck( $lm[0], 1 );
+    }
+    $lectures_end = false;
+    if ( $lecture_starts && preg_match( '/<div class="[^"]*\bpotw-lectures\b[^"]*"/', $content, $wm, PREG_OFFSET_CAPTURE ) ) {
+        // The wrapper closes with the last "<!-- /wp:group -->" of the lectures block.
+        if ( preg_match( '#</div>\s*<!-- /wp:group -->\s*</div>\s*<!-- /wp:group -->#', $content, $cm, PREG_OFFSET_CAPTURE, $wm[0][1] ) ) {
+            $lectures_end = $cm[0][1];
+        }
     }
 
     $headings   = array();
     $index      = 0;
     $h2_counter = 0;
     $h3_counter = 0;
+    $current    = null;
 
     foreach ( $matches as $match ) {
-        $level = (int) $match[1];
-        $title = wp_strip_all_tags( $match[2] );
+        $offset  = $match[0][1];
+        $lecture = -1;
+        foreach ( $lecture_starts as $n => $start ) {
+            if ( $offset > $start ) {
+                $lecture = $n;
+            }
+        }
+        if ( false !== $lectures_end && $offset > $lectures_end ) {
+            $lecture = -1;
+        }
+        if ( $lecture !== $current ) {
+            $current    = $lecture;
+            $h2_counter = 0;
+            $h3_counter = 0;
+        }
+
+        $level = (int) $match[1][0];
+        $title = wp_strip_all_tags( $match[2][0] );
         $slug  = sanitize_title( $title ) . '-' . $index++;
 
         if ( 2 === $level ) {
@@ -301,15 +350,16 @@ function lesson_toc_get_headings( $post_id ) {
             $number = (string) $h2_counter;
         } else {
             $h3_counter++;
-            $number = $h2_counter . '.' . $h3_counter;
+            $number = max( 1, $h2_counter ) . '.' . $h3_counter;
         }
 
         $headings[] = array(
-            'level'  => $level,
-            'title'  => $title,
-            'slug'   => $slug,
-            'number' => $number,
-            'raw'    => $match[0],
+            'level'   => $level,
+            'title'   => $title,
+            'slug'    => $slug,
+            'number'  => $number,
+            'raw'     => $match[0][0],
+            'lecture' => $lecture,
         );
     }
 
@@ -336,28 +386,12 @@ function lesson_toc_inject_heading_ids( $content ) {
 }
 
 /**
- * Shortcode: [lesson_toc]
- * Render a complete table of contents with nested numbers.
+ * Render one numbered TOC list.
  */
-add_shortcode( 'lesson_toc', 'lesson_toc_render_shortcode' );
-
-function lesson_toc_render_shortcode( $atts ) {
-    $atts    = shortcode_atts( array( 'id' => get_the_ID() ), $atts );
-    $post_id = (int) $atts['id'];
-
-    if ( ! $post_id || 'lesson' !== get_post_type( $post_id ) ) {
-        return '';
-    }
-
-    $headings = lesson_toc_get_headings( $post_id );
-    if ( empty( $headings ) ) {
-        return '';
-    }
-
-    $html = '<nav class="lesson-toc" aria-label="Table of Contents">';
-    $html .= '<p class="lesson-toc__title">Table of Contents</p><ul class="lesson-toc__list">';
-
+function lesson_toc_render_list( $headings, $attrs = '' ) {
+    $html     = '<ul class="lesson-toc__list"' . $attrs . '>';
     $open_sub = false;
+    $headings = array_values( $headings );
 
     foreach ( $headings as $i => $h ) {
         if ( 2 === $h['level'] ) {
@@ -381,11 +415,117 @@ function lesson_toc_render_shortcode( $atts ) {
         }
     }
 
-    $html .= $open_sub ? '</ul></li>' : '</li>';
-    $html .= '</ul></nav>';
-
-    return $html;
+    $html .= $open_sub ? '</ul></li>' : ( $headings ? '</li>' : '' );
+    return $html . '</ul>';
 }
+
+/**
+ * Shortcode: [lesson_toc]
+ * Render a complete table of contents with nested numbers.
+ *
+ * - Always starts with a "Start of lesson" link (to the lesson title), so the
+ *   TOC is never empty, and doubles as "back to top" while reading.
+ * - With several lectures, one list per lecture is rendered; lesson-lectures.js
+ *   shows the list that matches the selected lecture tab.
+ * - Wrapped in <details> so it can collapse on phones (lesson-lectures.js
+ *   closes it below 782px; it stays open on larger screens).
+ */
+add_shortcode( 'lesson_toc', 'lesson_toc_render_shortcode' );
+
+function lesson_toc_render_shortcode( $atts ) {
+    $atts    = shortcode_atts( array( 'id' => get_the_ID() ), $atts );
+    $post_id = (int) $atts['id'];
+
+    if ( ! $post_id || 'lesson' !== get_post_type( $post_id ) ) {
+        return '';
+    }
+
+    $headings = lesson_toc_get_headings( $post_id );
+
+    $by_lecture = array();
+    foreach ( $headings as $h ) {
+        $by_lecture[ $h['lecture'] ][] = $h;
+    }
+    $lecture_keys = array_filter( array_keys( $by_lecture ), function ( $k ) { return $k >= 0; } );
+
+    $html  = '<nav class="lesson-toc" aria-label="Table of Contents">';
+    $html .= '<details class="lesson-toc__details" open>';
+    $html .= '<summary class="lesson-toc__title">Table of Contents</summary>';
+
+    $html .= '<ul class="lesson-toc__list lesson-toc__list--start">';
+    $html .= '<li class="toc-item toc-item--start"><span class="toc-number" aria-hidden="true">&uarr;</span>';
+    $html .= '<a href="#lesson-start">' . esc_html__( 'Start of lesson', 'potw-fse' ) . '</a></li>';
+    $html .= '</ul>';
+
+    if ( $headings && ! $lecture_keys ) {
+        $html .= lesson_toc_render_list( $headings );
+    } else {
+        foreach ( $lecture_keys as $n => $key ) {
+            $html .= lesson_toc_render_list( $by_lecture[ $key ], ' data-lecture="' . (int) $key . '"' . ( 0 === (int) $key ? '' : ' hidden' ) );
+        }
+    }
+
+    return $html . '</details></nav>';
+}
+
+/**
+ * Anchor for the TOC's "Start of lesson" link: give the lesson title an id.
+ */
+add_filter( 'render_block_core/post-title', 'potw_lesson_title_anchor', 10, 2 );
+
+function potw_lesson_title_anchor( $content, $block ) {
+    static $done = false;
+    if ( $done || ! is_singular( 'lesson' ) || false !== strpos( $content, ' id=' ) ) {
+        return $content;
+    }
+    if ( ! empty( $block['attrs']['isLink'] ) ) {
+        return $content; // a linked title inside a query loop, not the lesson's own title.
+    }
+    $done = true;
+    return preg_replace( '/^(\s*<h[1-6]\b)/', '$1 id="lesson-start"', $content, 1 );
+}
+
+/**
+ * Lecture tabs (several lecturers in one lesson body).
+ */
+function potw_lesson_lectures_assets() {
+    if ( ! is_singular( 'lesson' ) ) {
+        return;
+    }
+    wp_enqueue_script(
+        'potw-lesson-lectures',
+        get_stylesheet_directory_uri() . '/assets/js/lesson-lectures.js',
+        array(),
+        filemtime( get_stylesheet_directory() . '/assets/js/lesson-lectures.js' ),
+        true
+    );
+    // Reading time + progress, and "you are here" highlight in the TOC.
+    wp_enqueue_script(
+        'potw-lesson-reading',
+        get_stylesheet_directory_uri() . '/assets/js/lesson-reading.js',
+        array( 'potw-lesson-lectures' ),
+        filemtime( get_stylesheet_directory() . '/assets/js/lesson-reading.js' ),
+        true
+    );
+}
+add_action( 'wp_enqueue_scripts', 'potw_lesson_lectures_assets' );
+
+/**
+ * Contact/registration form: in-person OR Zoom, not both (see attendance-choice.js).
+ */
+function potw_attendance_choice_assets() {
+    if ( ! is_singular() || ! has_block( 'jetpack/contact-form', get_queried_object_id() ) ) {
+        return;
+    }
+    wp_enqueue_script(
+        'potw-attendance-choice',
+        get_stylesheet_directory_uri() . '/assets/js/attendance-choice.js',
+        array(),
+        filemtime( get_stylesheet_directory() . '/assets/js/attendance-choice.js' ),
+        true
+    );
+}
+add_action( 'wp_enqueue_scripts', 'potw_attendance_choice_assets' );
 
 
 /**

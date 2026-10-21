@@ -1,5 +1,5 @@
 (function () {
-  var STORAGE_KEY = 'postViewMode';
+  var STORAGE_KEY = 'potwPostView'; // renamed so everyone starts on the (default) list view again
   var DEFAULT_MODE = 'list';
   var root = document.documentElement; // <html> is never replaced by pagination
 
@@ -71,6 +71,58 @@
   document.addEventListener('keydown', function (event) {
     if (event.key === 'Enter' || event.key === ' ') {
       handleSwitch(event);
+    }
+  });
+})();
+/**
+ * List view as a table: add a header row (Date / Lesson / Book) to each
+ * lesson list. Hidden in grid view by CSS. Re-runs if the list is replaced
+ * (e.g. paginated without a page reload).
+ */
+(function () {
+  function addHeaders() {
+    document.querySelectorAll('.post-view-area .wp-block-post-template').forEach(function (ul) {
+      if (ul.querySelector(':scope > .potw-list-head')) return;
+      var li = document.createElement('li');
+      li.className = 'potw-list-head';
+      li.setAttribute('aria-hidden', 'true');
+      li.innerHTML = '<span>Date</span><span>Lesson</span><span>Book</span><span></span>';
+      ul.insertBefore(li, ul.firstChild);
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    addHeaders();
+    var area = document.querySelector('.post-view-area');
+    if (area && window.MutationObserver) {
+      new MutationObserver(addHeaders).observe(area, { childList: true, subtree: true });
+    }
+  });
+})();
+
+
+/**
+ * Grid view: most lessons have no featured image. Give those cards a
+ * patterned banner with the book name, so every card has the same shape.
+ */
+(function () {
+  function addPlaceholders() {
+    document.querySelectorAll('.post-view-area .post-card').forEach(function (card) {
+      if (card.querySelector('.wp-block-post-featured-image, .potw-card-thumb')) return;
+      var book = card.querySelector('.wp-block-post-terms');
+      var div = document.createElement('div');
+      div.className = 'potw-card-thumb';
+      div.setAttribute('aria-hidden', 'true');
+      div.innerHTML = '<span></span>';
+      div.firstChild.textContent = book ? book.textContent.trim() : '';
+      card.insertBefore(div, card.firstChild);
+    });
+  }
+  document.addEventListener('DOMContentLoaded', function () {
+    addPlaceholders();
+    var area = document.querySelector('.post-view-area');
+    if (area && window.MutationObserver) {
+      new MutationObserver(addPlaceholders).observe(area, { childList: true, subtree: true });
     }
   });
 })();
