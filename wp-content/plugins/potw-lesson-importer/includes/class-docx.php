@@ -37,6 +37,9 @@ class POTW_LI_Docx {
 	 */
 	const KEYWORD_HEADINGS = '/^(introduction|intro|background|overview|application|applications|personal application|life application|conclusion|in conclusion|summary|review|action steps?|takeaways?|key points?|let\x{2019}?\'?s pray|prayer|closing( prayer| thoughts| remarks)?|q\s*&\s*a|questions?( (for|to) (discussion|reflection|ponder|consider))?|discussion questions|references|sources|notes|end\\s*notes|memory verse|key verse)\s*[:.!]?$/iu';
 
+	/** Headings that introduce the closing prayer. */
+	const PRAYER_HEADING = '/^(let\x{2019}?\'?s pray|let us pray|prayer|closing prayer|a prayer|our prayer|prayer of [a-z ]+)\s*[:.!]?$/iu';
+
 	/** "Part 1 – …", "Point 2: …", "Section III". */
 	const KEYWORD_PREFIX = '/^(part|point|section)\s+(\d+|[ivx]+|one|two|three|four|five|six|seven)\b/iu';
 
@@ -122,6 +125,7 @@ class POTW_LI_Docx {
 		list( $items, $title ) = $self->strip_header( $items, $context );
 		$items                 = $self->detect_headings( $items );
 		$items                 = $self->refine_headings( $items, $context, $title );
+		$items                 = $self->mark_quotes_and_prayers( $items );
 
 		$headings = count(
 			array_filter(
@@ -301,6 +305,13 @@ class POTW_LI_Docx {
 
 		$jc     = $this->xp->query( 'w:pPr/w:jc', $p )->item( 0 );
 		$center = $jc && 'center' === $jc->getAttributeNS( self::W, 'val' );
+		$ind    = $this->xp->query( 'w:pPr/w:ind', $p )->item( 0 );
+		$indent = 0;
+		if ( $ind ) {
+			$left   = $ind->getAttributeNS( self::W, 'left' );
+			$left   = '' !== $left ? $left : $ind->getAttributeNS( self::W, 'start' );
+			$indent = (int) $left;
+		}
 
 		$segments = array();
 		$this->runs( $p, $segments, null, $style['bold'] );
@@ -310,7 +321,11 @@ class POTW_LI_Docx {
 		$chars = 0;
 		$bold  = 0;
 		$under = 0;
+		$ital  = 0;
 		foreach ( $segments as $s ) {
+			if ( $s['i'] ) {
+				$ital += function_exists( 'mb_strlen' ) ? mb_strlen( trim( $s['text'] ) ) : strlen( trim( $s['text'] ) );
+			}
 			$plain .= $s['text'];
 			$len    = function_exists( 'mb_strlen' ) ? mb_strlen( trim( $s['text'] ) ) : strlen( trim( $s['text'] ) );
 			$chars += $len;
@@ -337,6 +352,8 @@ class POTW_LI_Docx {
 			'center'   => $center,
 			'all_bold' => $chars > 0 && $bold >= $chars,
 			'all_u'    => $chars > 0 && $under >= $chars,
+			'all_i'    => $chars > 0 && $ital >= $chars,
+			'indent'   => $indent,
 		);
 	}
 
@@ -849,6 +866,92 @@ class POTW_LI_Docx {
 		return array_values( $items );
 	}
 
+	/**
+	 * Layer-1 structure rules:
+	 *  - Empty headings (nothing under them before the next heading of the same
+	 *    or higher level, e.g. "Notes" / "Let's pray" at the very end) are
+	 *    removed — a prayer heading with nothing under it stays as plain text.
+	 *  - Scripture quotes become quote blocks: a paragraph wrapped in quotation
+	 *    marks, a reference followed by a quotation ("Acts 6:1 (NKJV) “Now …”"),
+	 *    or a paragraph indented further than the lecture's normal text that
+	 *    quotes / cites Scripture. The reference becomes the citation.
+	 *  - The text under "Let's Pray" / "Closing Prayer" is boxed (see render()).
+	 */
+	private function mark_quotes_and_prayers( array $items ) {
+		// Empty headings.
+		$n   = count( $items );
+		$out = array();
+		for ( $k = 0; $k < $n; $k++ ) {
+			$it = $items[ $k ];
+			if ( 'heading' === $it['type'] ) {
+				$next = $items[ $k + 1 ] ?? null;
+				$empty = null === $next || ( 'heading' === $next['type'] && (int) $next['level'] <= (int) $it['level'] );
+				if ( $empty ) {
+					if ( preg_match( self::PRAYER_HEADING, trim( $it['plain'] ) ) ) {
+						$it['type'] = 'p';
+						unset( $it['level'] );
+						$it['html'] = htmlspecialchars( trim( $it['plain'] ), ENT_QUOTES, 'UTF-8' );
+						$out[]      = $it;
+					}
+					continue; // drop "Notes", "References", … with nothing under them.
+				}
+			}
+			$out[] = $it;
+		}
+		$items = $out;
+
+		// Typical indent of body text.
+		$indents = array();
+		foreach ( $items as $it ) {
+			if ( 'p' === $it['type'] && empty( $it['list'] ) ) {
+				$indents[] = (int) ( $it['indent'] ?? 0 );
+			}
+		}
+		sort( $indents );
+		$median = $indents ? $indents[ (int) floor( count( $indents ) / 2 ) ] : 0;
+
+		$ref = '(?:\d\s*)?[A-Z][a-z]+\.?\s+\d+[:.]\d+(?:[\-\x{2013}\x{2014},]\s*\d+(?::\d+)?)*[a-z]?(?:\s*\((?:NKJV|NIV|ESV|KJV|NASB|NLT|NRSV|AMP|MSG|CSB|HCSB|RSV|NET|TLB|ASV|NAS|NIrV|CEV|GNT|NCV)\))?';
+		foreach ( $items as $k => $it ) {
+			if ( 'p' !== $it['type'] || ! empty( $it['list'] ) ) {
+				continue;
+			}
+			$t   = trim( $it['plain'] );
+			$len = function_exists( 'mb_strlen' ) ? mb_strlen( $t ) : strlen( $t );
+			if ( $len < 30 ) {
+				continue;
+			}
+			$cite  = '';
+			$quote = false;
+			// "Acts 6:1 (NKJV) “Now in those days …”" / "Acts 2:47b (NKJV) says, “…”"
+			if ( preg_match( '/^(' . $ref . ')\s*(?:says,?|reads,?|:|\x{2013}|-)?\s*([\x{201C}"].+)$/u', $t, $m ) ) {
+				$cite  = $m[1];
+				$quote = true;
+			} elseif ( preg_match( '/^[\x{201C}"].{20,}[\x{201D}"][.!?]?\s*(?:\(?(' . $ref . ')\)?)?\.?$/u', $t, $m ) ) {
+				// Whole paragraph in quotation marks, optionally followed by its reference.
+				$cite  = $m[1] ?? '';
+				$quote = true;
+			} elseif ( (int) ( $it['indent'] ?? 0 ) >= $median + 360 && ( preg_match( '/[\x{201C}"]/u', $t ) || preg_match( '/\(?' . $ref . '\)?\.?$/u', $t ) || ! empty( $it['all_i'] ) ) ) {
+				// Indented further than the body (≥ ¼ inch) and quoting / citing Scripture.
+				if ( preg_match( '/\(?(' . $ref . ')\)?\.?$/u', $t, $m ) ) {
+					$cite = $m[1];
+				}
+				$quote = true;
+			}
+			if ( $quote ) {
+				$body = $t;
+				if ( '' !== $cite ) {
+					// Take the reference out of the text — it is shown as the citation.
+					$q    = preg_quote( $cite, '/' );
+					$body = preg_replace( '/^' . $q . '\s*(?:says,?|reads,?|:|\x{2013}|-)?\s*|\s*[\x{2013}\x{2014}-]?\s*\(?' . $q . '\)?\.?$/u', '', $body );
+				}
+				$items[ $k ]['quote'] = true;
+				$items[ $k ]['cite']  = $cite;
+				$items[ $k ]['html']  = '' !== $cite ? htmlspecialchars( trim( $body ), ENT_QUOTES, 'UTF-8' ) : $it['html'];
+			}
+		}
+		return $items;
+	}
+
 	private function word_heading_level( array $it ) {
 		$s = $it['style'];
 		if ( preg_match( '/^heading\s*([1-9])$/', $s, $m ) ) {
@@ -958,9 +1061,35 @@ class POTW_LI_Docx {
 		for ( $k = 0; $k < $n; $k++ ) {
 			$it = $items[ $k ];
 			if ( 'heading' === $it['type'] ) {
-				$lvl  = (int) $it['level'];
-				$attr = 2 === $lvl ? '' : ' {"level":' . $lvl . '}';
-				$out .= "<!-- wp:heading{$attr} -->\n<h{$lvl} class=\"wp-block-heading\">{$it['html']}</h{$lvl}>\n<!-- /wp:heading -->\n\n";
+				$lvl     = (int) $it['level'];
+				$attr    = 2 === $lvl ? '' : ' {"level":' . $lvl . '}';
+				$heading = "<!-- wp:heading{$attr} -->\n<h{$lvl} class=\"wp-block-heading\">{$it['html']}</h{$lvl}>\n<!-- /wp:heading -->\n\n";
+				// Prayer: box the heading and everything under it (up to the next heading).
+				if ( preg_match( self::PRAYER_HEADING, trim( $it['plain'] ) ) ) {
+					$inner = array();
+					while ( $k + 1 < $n && 'heading' !== $items[ $k + 1 ]['type'] ) {
+						$inner[] = $items[ ++$k ];
+					}
+					$out .= "<!-- wp:group {\"className\":\"potw-prayer\",\"layout\":{\"type\":\"constrained\"}} -->\n<div class=\"wp-block-group potw-prayer\">" . $heading . $this->render( $inner ) . "\n</div>\n<!-- /wp:group -->\n\n";
+					continue;
+				}
+				$out .= $heading;
+				continue;
+			}
+			if ( ! empty( $it['quote'] ) ) {
+				$paras = array();
+				$cite  = '';
+				// One quote = consecutive quoted paragraphs, ending at the one that carries the reference.
+				while ( $k < $n && ! empty( $items[ $k ]['quote'] ) ) {
+					$paras[] = $items[ $k ]['html'];
+					$cite    = $items[ $k ]['cite'];
+					$k++;
+					if ( '' !== $cite ) {
+						break;
+					}
+				}
+				$k--;
+				$out .= $this->render_quote( $paras, $cite );
 				continue;
 			}
 			if ( 'table' === $it['type'] ) {
@@ -980,6 +1109,18 @@ class POTW_LI_Docx {
 			$out .= "<!-- wp:paragraph -->\n<p>{$it['html']}</p>\n<!-- /wp:paragraph -->\n\n";
 		}
 		return trim( $out );
+	}
+
+	/** Scripture quote → core/quote, with the reference as the citation. */
+	private function render_quote( array $paras, $cite ) {
+		$h = "<!-- wp:quote -->\n<blockquote class=\"wp-block-quote\">";
+		foreach ( $paras as $p ) {
+			$h .= "<!-- wp:paragraph -->\n<p>{$p}</p>\n<!-- /wp:paragraph -->";
+		}
+		if ( '' !== $cite ) {
+			$h .= '<cite>' . htmlspecialchars( $cite, ENT_QUOTES, 'UTF-8' ) . '</cite>';
+		}
+		return $h . "</blockquote>\n<!-- /wp:quote -->\n\n";
 	}
 
 	/** Render consecutive list items (with nesting) as core/list blocks. */

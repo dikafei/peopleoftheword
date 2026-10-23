@@ -112,6 +112,27 @@ if ( file_exists( get_stylesheet_directory() . '/inc/lesson-cards.php' ) ) {
 	require_once get_stylesheet_directory() . '/inc/lesson-cards.php';
 }
 
+/**
+ * GiveWP donation form branding.
+ */
+if ( file_exists( get_stylesheet_directory() . '/inc/givewp.php' ) ) {
+	require_once get_stylesheet_directory() . '/inc/givewp.php';
+}
+
+/**
+ * Language flags in the header (TranslatePress).
+ */
+if ( file_exists( get_stylesheet_directory() . '/inc/language.php' ) ) {
+	require_once get_stylesheet_directory() . '/inc/language.php';
+}
+
+/**
+ * MailPoet subscribe form in the footer ([potw_subscribe]).
+ */
+if ( file_exists( get_stylesheet_directory() . '/inc/mailpoet.php' ) ) {
+	require_once get_stylesheet_directory() . '/inc/mailpoet.php';
+}
+
 
 /**
  * Add new styles in block editor

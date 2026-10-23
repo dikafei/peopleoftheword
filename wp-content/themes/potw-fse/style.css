@@ -1631,3 +1631,466 @@ html.view-grid .post-view-area .post-card .potw-thumb-placeholder span {
 .wp-block-separator.is-style-vertical:first-child {
 	display: none;
 }
+
+/* Lecture body: Scripture quotes ------------------------------------------- */
+
+.potw-lecture .wp-block-quote {
+	margin: 2rem 0;
+	padding: 1.25rem 1.5rem 1.25rem 1.75rem;
+	border-left: 4px solid var(--wp--preset--color--primary);
+	border-radius: 0 12px 12px 0;
+	background: var(--wp--preset--color--accent-5);
+	font-style: italic;
+	color: var(--wp--preset--color--accent-1);
+}
+
+.potw-lecture .wp-block-quote p {
+	margin: 0 0 0.75rem;
+}
+
+.potw-lecture .wp-block-quote p:last-of-type {
+	margin-bottom: 0;
+}
+
+.potw-lecture .wp-block-quote cite {
+	display: block;
+	margin-top: 0.75rem;
+	font-style: normal;
+	font-size: 0.9375rem;
+	letter-spacing: .02em;
+	color: var(--wp--preset--color--primary);
+}
+
+.potw-lecture .wp-block-quote cite::before {
+	content: "— ";
+}
+
+/* Lecture body: closing prayer box ------------------------------------------ */
+
+.potw-lecture .potw-prayer {
+	margin: 2.5rem 0 1rem;
+	padding: 1.5rem 1.75rem;
+	border: 1px solid var(--wp--preset--color--accent-3);
+	border-radius: 1.25rem;
+	background: var(--wp--preset--color--accent-5);
+}
+
+.potw-lecture .potw-prayer > .wp-block-heading {
+	margin-top: 0 !important;
+	font-size: var(--wp--preset--font-size--heading-5);
+}
+
+.potw-lecture .potw-prayer > p:last-child {
+	margin-bottom: 0;
+}
+
+/* Donate page ------------------------------------------------------------------ */
+
+.potw-donate {
+	gap: var(--wp--preset--spacing--50, 3rem) !important;
+	align-items: flex-start !important;
+	margin-top: 4rem !important; /* clear the logo that hangs below the header */
+}
+
+.potw-donate__intro .potw-eyebrow {
+	margin: 0 0 0.5rem;
+	font-style: italic;
+	font-size: 1.25rem;
+	color: var(--wp--preset--color--secondary);
+}
+
+.potw-donate__intro h1 {
+	margin-top: 0;
+	line-height: 1.1;
+}
+
+.potw-donate__impact {
+	list-style: none;
+	margin: 2rem 0;
+	padding: 0;
+	display: grid;
+	gap: 1rem;
+}
+
+.potw-donate__impact li {
+	position: relative;
+	padding: 1rem 1.25rem 1rem 3.25rem;
+	border-radius: 14px;
+	background: var(--wp--preset--color--accent-5);
+	border: 1px solid var(--wp--preset--color--accent-4);
+	line-height: 1.45;
+}
+
+.potw-donate__impact li::before {
+	content: "";
+	position: absolute;
+	left: 1.15rem;
+	top: 1.2rem;
+	width: 1.25rem;
+	height: 1.25rem;
+	border-radius: 50%;
+	background: var(--wp--preset--color--secondary) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E") center / 0.7rem no-repeat;
+}
+
+.potw-donate__impact strong {
+	display: block;
+	font-family: var(--wp--preset--font-family--heading);
+	font-weight: 400;
+	font-size: 1.2rem;
+	color: var(--wp--preset--color--heading);
+}
+
+.potw-donate__verse {
+	margin: 2rem 0 0 !important;
+	padding: 1.5rem 1.75rem !important;
+	border: 0 !important;
+	border-radius: 16px;
+	background: var(--wp--preset--color--accent-1) url(/wp-content/uploads/2026/10/header-pattern-bg.webp) center / cover;
+	color: var(--wp--preset--color--accent-4);
+}
+
+.potw-donate__verse p {
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: 1.375rem;
+	font-style: italic;
+	line-height: 1.35;
+	margin: 0;
+}
+
+.potw-donate__verse cite {
+	display: block;
+	margin-top: 0.75rem;
+	font-style: normal;
+	font-size: 0.9375rem;
+	color: var(--wp--preset--color--accent-3);
+}
+
+.potw-donate__form {
+	padding: 1.25rem;
+	border-radius: 24px;
+	background: var(--wp--preset--color--accent-5);
+	border: 1px solid var(--wp--preset--color--accent-4);
+}
+
+@media (min-width: 782px) {
+	.potw-donate__form {
+		position: sticky;
+		top: 2rem;
+	}
+}
+
+.potw-donate__form .givewp-donation-form-embed,
+.potw-donate__form iframe {
+	width: 100% !important;
+	max-width: none !important;
+}
+
+.potw-donate__note {
+	margin: 1rem 0 0;
+	text-align: center;
+	font-size: 0.9375rem;
+	color: var(--wp--preset--color--accent-2);
+}
+
+/* Page kit (About, Contact, FAQ) — same look as the Donate page ---------------- */
+
+.potw-page .potw-eyebrow {
+	margin: 0 0 0.5rem;
+	font-style: italic;
+	font-size: 1.25rem;
+	color: var(--wp--preset--color--secondary);
+}
+
+.potw-page__intro h1 {
+	margin-top: 0;
+	line-height: 1.1;
+}
+
+.potw-page__intro > p:not(.potw-eyebrow) {
+	line-height: 1.6;
+}
+
+.wp-block-group.potw-about {
+	width: 100%;
+	max-width: 62rem;
+	margin-inline: auto;
+}
+
+.potw-panel {
+	margin-top: var(--wp--preset--spacing--50, 3rem) !important;
+	padding: clamp(1.5rem, 4vw, 2.75rem) !important;
+	border-radius: 24px;
+	background: var(--wp--preset--color--accent-5);
+	border: 1px solid var(--wp--preset--color--accent-4);
+}
+
+.potw-panel > :first-child {
+	margin-top: 0 !important;
+}
+
+.potw-panel > :last-child {
+	margin-bottom: 0 !important;
+}
+
+.potw-about__history::after {
+	content: "";
+	display: block;
+	clear: both;
+}
+
+@media (min-width: 782px) {
+	.potw-about__history > .wp-block-image {
+		float: left;
+		width: 42%;
+		max-width: none !important;
+		margin: 0.35rem 2.25rem 1rem 0 !important;
+	}
+}
+
+/* Dark patterned box (Donate verse, About mission, FAQ / Contact callouts). */
+.potw-callout {
+	margin: 2rem 0 0 !important;
+	padding: 1.75rem 2rem !important;
+	border: 0 !important;
+	border-radius: 16px;
+	background: var(--wp--preset--color--accent-1) url(/wp-content/uploads/2026/10/header-pattern-bg.webp) center / cover;
+	color: var(--wp--preset--color--accent-4);
+}
+
+.potw-callout p {
+	color: inherit;
+}
+
+.wp-block-quote.potw-callout p {
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: 1.375rem;
+	font-style: italic;
+	line-height: 1.4;
+	margin: 0;
+}
+
+.wp-block-quote.potw-callout cite {
+	display: block;
+	margin-top: 0.75rem;
+	font-style: normal;
+	font-size: 0.9375rem;
+	color: var(--wp--preset--color--accent-3);
+}
+
+.potw-callout .potw-callout__label {
+	margin: 0 0 0.25rem;
+	font-style: italic;
+	color: var(--wp--preset--color--accent-3);
+}
+
+.potw-callout .potw-callout__title {
+	margin: 0 0 0.35rem;
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: 1.75rem;
+	line-height: 1.15;
+	color: #fff;
+}
+
+.potw-callout h2 {
+	margin-top: 0;
+	color: #fff;
+}
+
+.potw-callout a:not(.wp-block-button__link) {
+	color: #fff;
+}
+
+/* FAQ video cards. */
+.potw-video-grid {
+	margin-top: var(--wp--preset--spacing--50, 3rem) !important;
+}
+
+.potw-video-card {
+	padding: 1.25rem !important;
+	border-radius: 20px;
+	background: var(--wp--preset--color--accent-5);
+	border: 1px solid var(--wp--preset--color--accent-4);
+}
+
+.potw-video-card > p:first-child {
+	margin: 0.25rem 0.25rem 1rem !important;
+}
+
+.potw-video-card .wp-block-videopress-video,
+.potw-video-card figure {
+	margin: 0 !important;
+	border-radius: 12px;
+	overflow: hidden;
+}
+
+.potw-faq__more {
+	margin-top: var(--wp--preset--spacing--50, 3rem) !important;
+	text-align: center;
+}
+
+.potw-faq__more .wp-block-buttons {
+	justify-content: center;
+	margin-top: 1.25rem;
+}
+
+/* Contact: two columns, form in the card on the right. */
+.potw-contact .potw-donate__form {
+	padding: clamp(1.25rem, 3vw, 2.25rem);
+}
+
+.potw-contact .potw-form-title {
+	margin-top: 0;
+}
+
+@media (min-width: 782px) {
+	.potw-contact .potw-donate__form {
+		position: static;
+	}
+
+	.potw-contact .potw-donate__intro {
+		position: sticky;
+		top: 2rem;
+	}
+}
+
+.potw-contact .potw-form-title {
+	font-size: clamp(1.375rem, 2.2vw, 1.75rem);
+}
+
+/* Language flags in the header (TranslatePress floater hidden). */
+#trp-floater-ls,
+.trp-floating-switcher {
+	display: none !important;
+}
+
+.potw-lang {
+	display: flex;
+	align-items: center;
+	gap: 0.25rem;
+	padding: 0.25rem;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.1);
+}
+
+.potw-lang__item {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	padding: 0.35rem 0.6rem;
+	border-radius: 999px;
+	color: #fff !important;
+	font-size: 0.875rem;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	text-decoration: none !important;
+	opacity: 0.75;
+	transition: background-color 0.2s, opacity 0.2s;
+}
+
+.potw-lang__item img {
+	width: 18px;
+	height: 12px;
+	border-radius: 2px;
+	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
+}
+
+.potw-lang__item:hover,
+.potw-lang__item:focus-visible {
+	opacity: 1;
+	background: rgba(255, 255, 255, 0.15);
+}
+
+.potw-lang__item.is-current {
+	opacity: 1;
+	background: rgba(255, 255, 255, 0.2);
+}
+
+/* Two-column pages (Donate, Contact, Register) stack on tablets and phones. */
+@media (max-width: 1099px) {
+	.wp-block-columns.potw-donate {
+		flex-wrap: wrap !important;
+		max-width: 46rem;
+		margin-inline: auto !important;
+	}
+
+	.wp-block-columns.potw-donate > .wp-block-column {
+		flex-basis: 100% !important;
+		position: static !important;
+	}
+}
+
+/* Phones: just the flag of the other language, so the header still fits. */
+@media (max-width: 600px) {
+	.potw-lang {
+		padding: 0;
+		background: none;
+	}
+
+	.potw-lang__item {
+		padding: 0.45rem;
+	}
+
+	.potw-lang__item span,
+	.potw-lang__item.is-current {
+		display: none;
+	}
+
+	.potw-lang__item img {
+		width: 24px;
+		height: 16px;
+	}
+}
+
+/* Footer subscribe form (MailPoet). */
+.potw-subscribe .mailpoet_form {
+	padding: 0 !important;
+	margin: 0 !important;
+}
+
+.potw-subscribe .mailpoet_paragraph {
+	margin: 0 0 0.75rem !important;
+}
+
+.potw-subscribe input.mailpoet_text {
+	width: 100% !important;
+	padding: 1rem 1.1rem !important;
+	border: 1px solid var(--wp--preset--color--accent-4) !important;
+	border-radius: 10px !important;
+	background: #fff !important;
+	font: inherit !important;
+	color: var(--wp--preset--color--heading);
+}
+
+.potw-subscribe input.mailpoet_text:focus {
+	outline: 2px solid var(--wp--preset--color--primary, #556838);
+	outline-offset: 1px;
+}
+
+.potw-subscribe input.mailpoet_submit {
+	width: 100% !important;
+	padding: 1rem 1.25rem !important;
+	border: 0 !important;
+	border-radius: 10px !important;
+	background: #556838 !important;
+	color: #fff !important;
+	font-family: var(--wp--preset--font-family--heading) !important;
+	font-size: 1.25rem !important;
+	cursor: pointer;
+	transition: background-color 0.2s;
+}
+
+.potw-subscribe input.mailpoet_submit:hover,
+.potw-subscribe input.mailpoet_submit:focus-visible {
+	background: #394625 !important;
+}
+
+.potw-subscribe .mailpoet_message p {
+	margin: 0.5rem 0 0;
+	font-size: 0.9375rem;
+}
+
+/* The shortcode block runs wpautop, which adds <br>s between MailPoet's hidden fields. */
+.potw-subscribe br,
+.potw-subscribe p:empty {
+	display: none;
+}

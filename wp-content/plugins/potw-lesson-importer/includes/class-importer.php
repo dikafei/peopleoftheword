@@ -23,7 +23,7 @@ class POTW_LI_Importer {
 	 * Bump this whenever the mapping logic changes: every lesson imported with an
 	 * older version is treated as "changed" on the next sync.
 	 */
-	const MAPPING_VERSION = 3; // 2: lecture/document bodies. 3: heading clean-up rules.
+	const MAPPING_VERSION = 4; // 2: lecture/document bodies. 3: heading clean-up rules. 4: quotes, prayer box, empty headings.
 
 	/** Lesson meta: md5 of the body the importer last wrote (detects hand edits). */
 	const M_BODY_HASH = '_potw_body_hash';
