@@ -101,6 +101,18 @@ add_filter( 'acf/settings/enable_datastore', '__return_true' );
 /**
  * Current Session page: whole study year + study-year switcher.
  */
+if ( file_exists( get_stylesheet_directory() . '/inc/archive.php' ) ) {
+	require_once get_stylesheet_directory() . '/inc/archive.php';
+}
+if ( file_exists( get_stylesheet_directory() . '/inc/study-years.php' ) ) {
+	require_once get_stylesheet_directory() . '/inc/study-years.php';
+}
+if ( file_exists( get_stylesheet_directory() . '/inc/lesson-homework.php' ) ) {
+	require_once get_stylesheet_directory() . '/inc/lesson-homework.php';
+}
+if ( file_exists( get_stylesheet_directory() . '/inc/lesson-types.php' ) ) {
+	require_once get_stylesheet_directory() . '/inc/lesson-types.php';
+}
 if ( file_exists( get_stylesheet_directory() . '/inc/lesson-sessions.php' ) ) {
 	require_once get_stylesheet_directory() . '/inc/lesson-sessions.php';
 }

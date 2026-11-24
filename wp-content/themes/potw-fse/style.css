@@ -2094,3 +2094,532 @@ html.view-grid .post-view-area .post-card .potw-thumb-placeholder span {
 .potw-subscribe p:empty {
 	display: none;
 }
+
+/* Homepage "Lesson of The Week": the current study year as the session table. */
+.potw-sessions--home {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 0.5rem 1.5rem;
+	margin: 0 0 1rem;
+}
+
+.potw-sessions--home .potw-sessions__now {
+	margin: 0;
+}
+
+.potw-sessions__more {
+	font-weight: 600;
+	color: var(--wp--preset--color--primary, #556838);
+	text-decoration: none;
+}
+
+.potw-sessions__more:hover,
+.potw-sessions__more:focus-visible {
+	text-decoration: underline;
+}
+
+/* This week's lesson, in the session lists. */
+.post-view-area .wp-block-post-template > li.is-this-week {
+	position: relative;
+	background: #fff8ec !important;
+	box-shadow: inset 4px 0 0 var(--wp--preset--color--secondary, #B37419);
+}
+
+.post-view-area li.is-this-week .wp-block-post-title::after {
+	content: "This week";
+	display: inline-block;
+	margin-left: 0.6rem;
+	padding: 0.15rem 0.55rem;
+	border-radius: 999px;
+	background: var(--wp--preset--color--secondary, #B37419);
+	color: #fff;
+	font-family: var(--wp--preset--font-family--body, inherit);
+	font-size: 0.75rem;
+	font-weight: 600;
+	letter-spacing: 0.03em;
+	vertical-align: middle;
+}
+
+/* "Also this year": lessons marked Extra, under the study year table. */
+.potw-extras {
+	margin-top: var(--wp--preset--spacing--50, 3rem);
+}
+
+.potw-extras__title {
+	margin: 0 0 1rem;
+	font-size: var(--wp--preset--font-size--heading-4, 1.75rem);
+}
+
+.potw-extras__list {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+	gap: 1rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.potw-extras__item a {
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	gap: 0.35rem;
+	height: 100%;
+	padding: 1.1rem 1.25rem;
+	border-radius: 14px;
+	background: var(--wp--preset--color--accent-5);
+	border: 1px solid var(--wp--preset--color--accent-4);
+	color: inherit;
+	text-decoration: none;
+	transition: border-color 0.2s, transform 0.2s;
+}
+
+.potw-extras__item a:hover,
+.potw-extras__item a:focus-visible {
+	border-color: var(--wp--preset--color--secondary);
+	transform: translateY(-2px);
+}
+
+.potw-extras__name {
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: 1.2rem;
+	line-height: 1.25;
+	color: var(--wp--preset--color--heading);
+}
+
+.potw-extras__meta {
+	font-size: 0.9375rem;
+	font-style: italic;
+	color: var(--wp--preset--color--secondary);
+}
+
+.potw-extras {
+	position: relative;
+	margin-bottom: var(--wp--preset--spacing--50, 3rem);
+}
+
+/* Study year intro (theme, dates, verses) above the session table. */
+.potw-year-intro {
+	box-sizing: border-box;
+	margin: 0 0 var(--wp--preset--spacing--50, 3rem);
+	padding: clamp(1.5rem, 4vw, 2.75rem);
+	border-radius: 24px;
+	background: var(--wp--preset--color--accent-5);
+	border: 1px solid var(--wp--preset--color--accent-4);
+}
+
+.potw-year-intro .potw-eyebrow {
+	margin: 0 0 0.35rem;
+	font-style: italic;
+	font-size: 1.125rem;
+	color: var(--wp--preset--color--secondary);
+}
+
+.potw-year-intro__title {
+	margin: 0;
+	line-height: 1.15;
+}
+
+.potw-year-intro__dates {
+	margin: 0.5rem 0 0;
+	font-weight: 600;
+	color: var(--wp--preset--color--accent-2);
+}
+
+.potw-year-intro__lead {
+	margin: 1rem 0 0;
+	max-width: 48rem;
+}
+
+.potw-year-intro__more {
+	margin: 1rem 0 0;
+}
+
+.potw-year-intro__more a {
+	font-weight: 600;
+	color: var(--wp--preset--color--primary, #556838);
+	text-decoration: none;
+}
+
+.potw-year-intro__more a:hover,
+.potw-year-intro__more a:focus-visible {
+	text-decoration: underline;
+}
+
+.potw-year-intro__body {
+	margin-top: 1.25rem;
+}
+
+.potw-year-intro__body > :first-child {
+	margin-top: 0;
+}
+
+.potw-year-intro__body h3 {
+	margin: 2rem 0 0.75rem;
+	font-size: 1.375rem;
+	font-style: italic;
+	color: var(--wp--preset--color--secondary);
+}
+
+.potw-year-intro__body .wp-block-quote {
+	margin: 0 0 0.75rem;
+	padding: 1rem 1.25rem;
+	border: 0;
+	border-left: 4px solid var(--wp--preset--color--secondary);
+	border-radius: 0 12px 12px 0;
+	background: #fff;
+}
+
+.potw-year-intro__body .wp-block-quote p {
+	margin: 0;
+	font-style: italic;
+}
+
+.potw-year-intro__body .wp-block-quote cite {
+	display: block;
+	margin-top: 0.4rem;
+	font-size: 0.9375rem;
+	font-style: normal;
+	color: var(--wp--preset--color--accent-2);
+}
+
+/* Homepage: the short intro centred above the table. */
+.potw-home-session .potw-year-intro--short {
+	text-align: center;
+}
+
+.potw-home-session .potw-year-intro--short .potw-year-intro__lead {
+	margin-inline: auto;
+}
+
+/* Homepage session line: two links on the right. */
+.potw-sessions__links {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: 0.5rem 1.5rem;
+}
+
+/* Full-year homework under the study year table. */
+.potw-year-homework {
+	box-sizing: border-box;
+	margin: var(--wp--preset--spacing--50, 3rem) 0;
+	padding: clamp(1.25rem, 3vw, 2.25rem);
+	border-radius: 24px;
+	background: var(--wp--preset--color--accent-5);
+	border: 1px solid var(--wp--preset--color--accent-4);
+	scroll-margin-top: 2rem;
+}
+
+.potw-year-homework__title {
+	margin: 0;
+	font-size: var(--wp--preset--font-size--heading-4, 1.75rem);
+}
+
+.potw-year-homework__intro {
+	margin: 0.5rem 0 1.25rem;
+	color: var(--wp--preset--color--accent-2);
+}
+
+.potw-year-homework__list {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr));
+	gap: 0.6rem 1rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	counter-reset: hw;
+}
+
+.potw-year-homework__item {
+	counter-increment: hw;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.75rem;
+	padding: 0.6rem 0.75rem 0.6rem 0.9rem;
+	border-radius: 12px;
+	background: #fff;
+	border: 1px solid var(--wp--preset--color--accent-4);
+}
+
+.potw-year-homework__name {
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: 1.05rem;
+	line-height: 1.25;
+}
+
+.potw-year-homework__name::before {
+	content: counter(hw) ". ";
+	color: var(--wp--preset--color--secondary);
+}
+
+.potw-year-homework__buttons {
+	display: flex;
+	flex-shrink: 0;
+	gap: 0.4rem;
+}
+
+/* Archive page: books by testament. */
+.potw-archive__section {
+	margin-bottom: var(--wp--preset--spacing--50, 3rem);
+}
+
+.potw-archive__section h2 {
+	margin: 0 0 1rem;
+}
+
+.potw-archive__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+	gap: 0.75rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.potw-archive__grid--wide {
+	grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+}
+
+.potw-archive__book {
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	gap: 0.2rem;
+	height: 100%;
+	padding: 0.9rem 1.1rem;
+	border-radius: 14px;
+	background: var(--wp--preset--color--accent-5);
+	border: 1px solid var(--wp--preset--color--accent-4);
+	color: inherit;
+	text-decoration: none !important;
+	transition: border-color 0.2s, transform 0.2s;
+}
+
+.potw-archive__book:hover,
+.potw-archive__book:focus-visible {
+	border-color: var(--wp--preset--color--secondary);
+	transform: translateY(-2px);
+}
+
+.potw-archive__name {
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: 1.2rem;
+	color: var(--wp--preset--color--heading);
+}
+
+.potw-archive__count {
+	font-size: 0.875rem;
+	font-style: italic;
+	color: var(--wp--preset--color--secondary);
+}
+
+.potw-archive__years {
+	margin-top: 1rem;
+	font-weight: 600;
+}
+
+.potw-file-year {
+	margin: 0;
+}
+
+/* Old Archive lessons show their file year only: hide the dash and end date after it. */
+.potw-file-year ~ * {
+	display: none !important;
+}
+
+.potw-year-homework__list {
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, 21rem), 1fr));
+}
+
+.potw-year-homework .lesson-repeater-btn {
+	padding: 0.3rem 0.7rem !important;
+	font-size: 0.8125rem !important;
+	line-height: 1.3 !important;
+	min-height: 0 !important;
+}
+
+/* Header dropdown (Archive): dark panel, light text. */
+header .wp-block-navigation:not(.has-modal-open) .wp-block-navigation__submenu-container,
+header .wp-block-navigation .wp-block-navigation__responsive-container:not(.is-menu-open) .wp-block-navigation__submenu-container {
+	min-width: 17rem !important;
+	padding: 0.5rem !important;
+	border: 1px solid rgba(255, 255, 255, 0.12) !important;
+	border-radius: 14px;
+	background: var(--wp--preset--color--accent-1, #3b2a1e) !important;
+	box-shadow: 0 14px 30px rgba(0, 0, 0, 0.25);
+	color: #fff !important;
+}
+
+header .wp-block-navigation .wp-block-navigation__responsive-container:not(.is-menu-open) .wp-block-navigation__submenu-container .wp-block-navigation-item__content {
+	padding: 0.6rem 0.85rem !important;
+	border-radius: 9px;
+	color: #fff !important;
+	font-size: 1rem;
+	white-space: nowrap;
+}
+
+header .wp-block-navigation .wp-block-navigation__responsive-container:not(.is-menu-open) .wp-block-navigation__submenu-container .wp-block-navigation-item__content:hover,
+header .wp-block-navigation .wp-block-navigation__responsive-container:not(.is-menu-open) .wp-block-navigation__submenu-container .wp-block-navigation-item__content:focus-visible {
+	background: rgba(255, 255, 255, 0.1);
+	color: var(--wp--preset--color--secondary-light, #e3b25a) !important;
+}
+
+/* Mobile menu: submenu items indented under Archive. */
+header .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__submenu-container {
+	padding-left: 1rem !important;
+}
+
+/* Themes / Church History pages: no Book column (it would repeat the same link on every row). */
+.potw-no-book .post-view-area .post-card .wp-block-post-terms {
+	display: none !important;
+}
+
+html:not(.view-grid) .potw-no-book .post-view-area .potw-list-head > span:nth-child(3) {
+	display: none;
+}
+
+html:not(.view-grid) .potw-no-book .post-view-area .potw-list-head,
+html:not(.view-grid) .potw-no-book .post-view-area .post-card {
+	grid-template-columns: minmax(13rem, 1.3fr) minmax(0, 3fr) 9.5rem;
+	grid-template-areas: "date lesson link";
+}
+
+@media (max-width: 700px) {
+	html:not(.view-grid) .potw-no-book .post-view-area .post-card {
+		grid-template-columns: minmax(0, 1fr) auto;
+		grid-template-areas:
+			"date date"
+			"lesson link";
+	}
+}
+
+/* Lesson lists are always the table: hide the Grid / List switch. */
+.wp-block-buttons:has(.view-switch__list),
+.wp-block-buttons:has(.view-switch__grid) {
+	display: none !important;
+}
+
+/* Church History Biographies / Lectures: no Date column either. */
+.potw-no-date .post-view-area .post-card .post-dates {
+	display: none !important;
+}
+
+html:not(.view-grid) .potw-no-date .post-view-area .potw-list-head > span:nth-child(1) {
+	display: none;
+}
+
+html:not(.view-grid) .potw-no-date.potw-no-book .post-view-area .potw-list-head,
+html:not(.view-grid) .potw-no-date.potw-no-book .post-view-area .post-card {
+	grid-template-columns: minmax(0, 1fr) 9.5rem;
+	grid-template-areas: "lesson link";
+}
+
+@media (max-width: 700px) {
+	html:not(.view-grid) .potw-no-date.potw-no-book .post-view-area .post-card {
+		grid-template-columns: minmax(0, 1fr) auto;
+		grid-template-areas: "lesson link";
+	}
+}
+
+/* Current Session intro: "Read more" after the first paragraph. */
+.potw-year-intro__details > summary {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	margin-top: 0.25rem;
+	cursor: pointer;
+	list-style: none;
+	font-weight: 600;
+	color: var(--wp--preset--color--primary, #556838);
+}
+
+.potw-year-intro__details > summary::-webkit-details-marker {
+	display: none;
+}
+
+.potw-year-intro__details > summary::after {
+	content: "";
+	width: 0.5rem;
+	height: 0.5rem;
+	border-right: 2px solid currentColor;
+	border-bottom: 2px solid currentColor;
+	transform: translateY(-2px) rotate(45deg);
+	transition: transform 0.2s;
+}
+
+.potw-year-intro__details[open] > summary::after {
+	transform: translateY(2px) rotate(-135deg);
+}
+
+.potw-year-intro__details > summary:hover,
+.potw-year-intro__details > summary:focus-visible {
+	text-decoration: underline;
+}
+
+.potw-year-intro__close,
+.potw-year-intro__details[open] .potw-year-intro__open {
+	display: none;
+}
+
+.potw-year-intro__details[open] .potw-year-intro__close {
+	display: inline;
+}
+
+.potw-year-intro__rest {
+	margin-top: 1rem;
+}
+
+/* "Everything else" (Archive) at the end of the study-year buttons. */
+.potw-sessions__item--older {
+	border-style: dashed !important;
+}
+
+/* Book column: several books on one line ("John, Themes"). */
+.post-view-area .post-card .wp-block-post-terms {
+	display: block !important;
+}
+
+.post-view-area .post-card .wp-block-post-terms > a,
+.post-view-area .post-card .wp-block-post-terms > .wp-block-post-terms__separator {
+	display: inline !important;
+}
+
+/* Sortable table headers. */
+.potw-sort-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	padding: 0;
+	border: 0;
+	background: none;
+	color: inherit;
+	font: inherit;
+	cursor: pointer;
+}
+
+.potw-sort-btn:hover,
+.potw-sort-btn:focus-visible {
+	text-decoration: underline;
+}
+
+.potw-sort-btn__icon {
+	width: 0;
+	height: 0;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	border-top: 6px solid currentColor;
+	opacity: 0.35;
+	transition: transform 0.2s, opacity 0.2s;
+}
+
+.potw-sort-btn.is-asc .potw-sort-btn__icon,
+.potw-sort-btn.is-desc .potw-sort-btn__icon {
+	opacity: 1;
+}
+
+.potw-sort-btn.is-asc .potw-sort-btn__icon {
+	transform: rotate(180deg);
+}

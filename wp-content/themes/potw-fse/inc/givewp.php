@@ -124,3 +124,47 @@ button[type="submit"]:hover, .givewp-donation-form__steps-button-next:hover { ba
 .givewp-donation-form__steps-progress, .givewp-donation-form__steps-progress-bar { background-color: #B37419 !important; }
 CSS;
 }
+
+/**
+ * Offline (check) donations: payable to People of the Word, no street address
+ * until the P.O. Box is set up. admin-ajax.php?action=potw_give_offline (wp_rest nonce).
+ */
+add_action(
+	'wp_ajax_potw_give_offline',
+	function () {
+		if ( ! current_user_can( 'manage_options' ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ?? '' ) ), 'wp_rest' ) ) {
+			wp_send_json_error( 'Not allowed', 403 );
+		}
+		$address = sanitize_textarea_field( wp_unslash( $_REQUEST['address'] ?? '' ) );
+		$mail    = $address
+			? '<p>Mail your check to:<br>' . nl2br( esc_html( $address ) ) . '</p>'
+			: '<p><em>Our mailing address (a P.O. Box) will be added here soon. In the meantime, please give online or contact us.</em></p>';
+		$content = '<p>Please make your check payable to <strong>People of the Word</strong>, and write "Donation" on the memo line.</p>' . $mail . '<p>Your tax-deductible donation is greatly appreciated!</p>';
+
+		$settings                                  = get_option( 'give_settings', array() );
+		$settings['global_offline_donation_content'] = $content;
+		$settings['gateways_label']                = (array) ( $settings['gateways_label'] ?? array() );
+		$settings['gateways_label']['offline']     = 'Mail a check';
+		update_option( 'give_settings', $settings );
+
+		// v3 forms can carry their own copy of the instructions: clear it so the global text is used.
+		$changed = array();
+		if ( class_exists( '\Give\DonationForms\Models\DonationForm' ) ) {
+			foreach ( array( 3382 ) as $id ) {
+				$form = \Give\DonationForms\Models\DonationForm::find( $id );
+				if ( $form ) {
+					$json = $form->blocks->toJson();
+					if ( false !== strpos( $json, '111 Not A Real St' ) ) {
+						$changed[] = $id;
+					}
+				}
+			}
+		}
+		wp_send_json_success(
+			array(
+				'content'        => $content,
+				'forms_with_own' => $changed,
+			)
+		);
+	}
+);
