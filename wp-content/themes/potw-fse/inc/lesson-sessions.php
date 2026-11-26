@@ -106,7 +106,7 @@ function potw_sessions() {
 function potw_sessions_flush( $post_id = 0 ) {
 	if ( ! $post_id || 'lesson' === get_post_type( $post_id ) ) {
 		delete_transient( 'potw_lesson_sessions_v2' );
-		delete_transient( 'potw_older_ids_v2' );
+		delete_transient( 'potw_older_ids_v3' );
 	}
 }
 add_action( 'save_post_lesson', 'potw_sessions_flush' );
@@ -175,7 +175,7 @@ function potw_older_meta_query() {
  * old site reused for recent years (files from the first study year onwards).
  */
 function potw_older_ids() {
-	$cached = get_transient( 'potw_older_ids_v2' );
+	$cached = get_transient( 'potw_older_ids_v3' );
 	if ( is_array( $cached ) ) {
 		return $cached;
 	}
@@ -218,7 +218,7 @@ function potw_older_ids() {
 			}
 		);
 	}
-	set_transient( 'potw_older_ids_v2', $keep, DAY_IN_SECONDS );
+	set_transient( 'potw_older_ids_v3', $keep, DAY_IN_SECONDS );
 	return $keep;
 }
 
@@ -309,7 +309,7 @@ function potw_session_nav( $where = 'top' ) {
 			if ( function_exists( 'potw_session_homework' ) && potw_session_homework( $active ) ) {
 				$html .= '<a class="potw-sessions__more" href="' . esc_url( get_permalink( $page ) ) . '#year-homework">' . esc_html__( 'All homework for the year', 'potw-fse' ) . ' →</a>';
 			}
-			$html .= '<a class="potw-sessions__more" href="' . esc_url( get_permalink( $page ) ) . '">' . esc_html__( 'Other study years', 'potw-fse' ) . ' →</a></span>';
+			$html .= '</span>';
 		}
 		return $html . '</div>';
 	}

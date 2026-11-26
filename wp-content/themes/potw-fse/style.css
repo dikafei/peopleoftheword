@@ -2623,3 +2623,8 @@ html:not(.view-grid) .potw-no-date.potw-no-book .post-view-area .post-card {
 .potw-sort-btn.is-asc .potw-sort-btn__icon {
 	transform: rotate(180deg);
 }
+
+/* Hide the receipt footer (GiveWP donation receipt). */
+.receipt-footer {
+	display: none !important;
+}

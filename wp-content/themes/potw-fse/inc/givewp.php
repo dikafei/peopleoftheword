@@ -122,6 +122,8 @@ button[type="submit"]:hover, .givewp-donation-form__steps-button-next:hover { ba
 /* Step header bar. */
 .givewp-donation-form__steps-header { border-bottom-color: #E4D3BF !important; }
 .givewp-donation-form__steps-progress, .givewp-donation-form__steps-progress-bar { background-color: #B37419 !important; }
+/* Hide the receipt footer. */
+.receipt-footer { display: none !important; }
 CSS;
 }
 
